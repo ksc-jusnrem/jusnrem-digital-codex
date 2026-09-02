@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Code, Law and Capital — Digital Codex v0.25</title>
+<meta name="description" content="The twenty-six-chapter online reading Codex for Code, Law and Capital.">
+<meta property="og:title" content="Code, Law and Capital — Digital Codex v0.25">
+<meta property="og:description" content="A paragraph-level online reading edition across all twenty-six chapters.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;650&family=Spectral:wght@400;600&family=Archivo:wght@400;700;750;800&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --font-display: 'Cormorant Garamond', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+  --font-reading: Spectral, Charter, 'Bitstream Charter', Georgia, serif;
+  --font-interface: Archivo, 'Avenir Next', 'Segoe UI', sans-serif;
+  --font-code: 'IBM Plex Mono', 'Cascadia Mono', Consolas, monospace;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: #f1ede4; color: #17261d; font-family: var(--font-interface); }
+button, input, select { font: inherit; }
+button { color: inherit; }
+a { color: inherit; text-decoration: none; }
+svg { display: block; }
+
+/* Twenty-six-chapter Digital Codex portal */
+.portal-shell { min-height: 100vh; background: #f1ede4; color: #17261d; }
+.portal-header {
+  position: sticky; top: 0; z-index: 50; display: grid; grid-template-columns: minmax(270px, 1fr) auto minmax(170px, 1fr);
+  align-items: center; min-height: 72px; padding: 10px clamp(18px, 2.7vw, 44px); border-bottom: 1px solid #cec6b6;
+  background: rgba(241, 237, 228, .96); backdrop-filter: blur(14px);
+}
+.portal-brand { display: inline-flex; align-items: center; width: max-content; gap: 13px; padding: 0; border: 0; background: transparent; cursor: pointer; text-align: left; }
+.portal-brand > span:first-child { display: grid; place-items: center; width: 40px; height: 40px; background: #233b2c; color: #fffdf6; font-family: var(--font-display); font-size: 15px; letter-spacing: .08em; }
+.portal-brand > span:last-child { display: grid; }
+.portal-brand strong { font-family: var(--font-display); font-size: 20px; font-weight: 650; line-height: 1; }
+.portal-brand small { margin-top: 6px; color: #69736c; font-size: 9px; font-weight: 750; letter-spacing: .16em; text-transform: uppercase; }
+.portal-header-meta { display: flex; gap: 18px; color: #667168; font-size: 9px; font-weight: 700; letter-spacing: .11em; text-transform: uppercase; }
+.portal-header > a { display: inline-flex; align-items: center; justify-self: end; gap: 7px; padding-bottom: 3px; border-bottom: 1px solid #a8813c; color: #5f492a; font-size: 9px; font-weight: 750; letter-spacing: .1em; text-transform: uppercase; }
+.portal-header > a svg { width: 13px; }
+.portal-mobile-select { display: none; }
+.portal-layout { display: grid; grid-template-columns: minmax(278px, 19vw) minmax(0, 1fr); min-height: calc(100vh - 72px); }
+.portal-layout > aside { position: sticky; top: 72px; height: calc(100vh - 72px); overflow-y: auto; border-right: 1px solid #cec6b6; background: #f1ede4; }
+.portal-contents { padding: 28px 16px 70px clamp(18px, 2.2vw, 36px); }
+.portal-overview { display: grid; grid-template-columns: 25px 1fr; width: 100%; gap: 9px; padding: 11px 9px; border: 0; border-left: 2px solid transparent; background: transparent; cursor: pointer; text-align: left; }
+.portal-overview svg { width: 16px; color: #a8813c; }
+.portal-overview span { display: grid; }
+.portal-overview strong { font-family: var(--font-reading); font-size: 14px; }
+.portal-overview small { margin-top: 4px; color: #748078; font-size: 9px; }
+.portal-overview:hover, .portal-overview.active { border-left-color: #a8813c; background: rgba(168,129,60,.09); }
+.portal-filter { display: flex; align-items: center; gap: 8px; margin: 22px 8px 4px; padding: 0 9px; border: 1px solid #cec6b6; background: #fbf8f0; }
+.portal-filter svg { width: 14px; color: #a8813c; }
+.portal-filter input { min-width: 0; width: 100%; height: 36px; border: 0; outline: 0; background: transparent; color: #17261d; font-size: 11px; }
+.portal-filter input::placeholder { color: #879087; }
+.portal-part { margin-top: 28px; }
+.portal-part > p { margin: 0 8px 7px; color: #a07840; font-size: 8px; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
+.portal-part > h2 { margin: 0 8px 9px; font-family: var(--font-display); font-size: 18px; font-weight: 650; line-height: 1.08; }
+.portal-chapter { display: grid; grid-template-columns: 24px 1fr; width: 100%; gap: 7px; padding: 8px 7px; border: 0; border-left: 2px solid transparent; background: transparent; color: #526057; cursor: pointer; font-family: var(--font-reading); font-size: 12px; line-height: 1.34; text-align: left; }
+.portal-chapter > span:first-child { padding-top: 2px; color: #7e877f; font-family: var(--font-code); font-size: 8px; }
+.portal-chapter:hover, .portal-chapter.active { border-left-color: #a8813c; background: rgba(168,129,60,.09); color: #17261d; }
+
+.portal-overview-page { min-width: 0; max-width: 1120px; padding: clamp(58px, 8vw, 116px) clamp(34px, 8vw, 128px) 100px; background: #fbf8f0; box-shadow: 0 12px 50px rgba(27,43,33,.11); }
+.portal-kicker { margin: 0 0 27px; color: #a07840; font-size: 9px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; }
+.portal-overview-page > h1 { display: grid; margin: 0; font-family: var(--font-display); font-size: clamp(66px, 8vw, 112px); font-weight: 500; line-height: .78; letter-spacing: -.045em; }
+.portal-overview-page > h1 span:last-child { padding-left: clamp(24px, 6vw, 84px); color: #a07840; }
+.portal-deck { max-width: 740px; margin: 42px 0 28px; color: #445248; font-family: var(--font-reading); font-size: clamp(20px, 2vw, 28px); line-height: 1.5; }
+.portal-status { display: flex; flex-wrap: wrap; align-items: center; gap: 0; width: max-content; max-width: 100%; margin-bottom: 28px; border: 1px solid #cec6b6; }
+.portal-status > * { padding: 8px 11px; border-right: 1px solid #cec6b6; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; }
+.portal-status > *:last-child { border-right: 0; }
+.portal-status strong { background: #233b2c; color: #fffdf6; font-weight: 800; }
+.portal-actions { display: flex; flex-wrap: wrap; gap: 9px; margin-bottom: 78px; }
+.portal-actions button, .portal-actions a { display: inline-flex; align-items: center; justify-content: center; height: 40px; gap: 9px; padding: 0 16px; border: 1px solid #233b2c; background: transparent; cursor: pointer; font-size: 9px; font-weight: 750; letter-spacing: .09em; text-transform: uppercase; }
+.portal-actions button { background: #233b2c; color: #fffdf6; }
+.portal-actions svg { width: 14px; }
+.portal-thesis { margin: 0 calc(clamp(34px, 8vw, 128px) * -1); padding: 58px clamp(34px, 8vw, 128px); background: #233b2c; color: #fffdf6; }
+.portal-thesis > p, .portal-map-head > p, .portal-provenance > p { margin: 0 0 17px; color: #d8b77f; font-size: 9px; font-weight: 800; letter-spacing: .17em; text-transform: uppercase; }
+.portal-thesis blockquote { max-width: 850px; margin: 0; font-family: var(--font-display); font-size: clamp(31px, 4vw, 48px); line-height: 1.22; }
+.portal-map { padding: 80px 0 25px; }
+.portal-map-head { display: grid; grid-template-columns: 1fr 1.1fr; gap: 28px; padding-bottom: 34px; border-bottom: 3px solid #233b2c; }
+.portal-map-head > p { grid-column: 1 / -1; margin: 0; color: #a07840; }
+.portal-map-head h2 { margin: 0; font-family: var(--font-display); font-size: 42px; font-weight: 600; line-height: 1.02; }
+.portal-map-head > span { color: #526057; font-family: var(--font-reading); font-size: 15px; line-height: 1.68; }
+.portal-part-grid { display: grid; grid-template-columns: 1fr 1fr; }
+.portal-part-grid button { position: relative; min-height: 180px; padding: 24px 50px 24px 0; border: 0; border-bottom: 1px solid #cec6b6; background: transparent; cursor: pointer; text-align: left; }
+.portal-part-grid button:nth-child(odd) { padding-right: 27px; border-right: 1px solid #cec6b6; }
+.portal-part-grid button:nth-child(even) { padding-left: 27px; }
+.portal-part-grid button:hover { background: rgba(168,129,60,.08); }
+.portal-part-grid button > span { color: #a07840; font-size: 8px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+.portal-part-grid h3 { margin: 17px 0 12px; font-family: var(--font-display); font-size: 25px; font-weight: 600; line-height: 1.08; }
+.portal-part-grid p { margin: 0; color: #667168; font-size: 9px; letter-spacing: .09em; text-transform: uppercase; }
+.portal-part-grid svg { position: absolute; right: 16px; bottom: 24px; width: 16px; color: #a07840; }
+.portal-provenance { display: grid; grid-template-columns: .55fr 1.45fr; gap: 42px; margin-top: 62px; padding: 33px 0; border-top: 1px solid #cec6b6; border-bottom: 1px solid #cec6b6; }
+.portal-provenance > p { margin: 3px 0 0; color: #a07840; }
+.portal-provenance h2 { margin: 0 0 12px; font-family: var(--font-display); font-size: 30px; font-weight: 600; }
+.portal-provenance div > p { margin: 0; color: #526057; font-family: var(--font-reading); font-size: 14px; line-height: 1.72; }
+
+.portal-reader-stage { min-width: 0; background: #fbf8f0; }
+.portal-reader-meta { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 30px; min-height: 86px; padding: 15px clamp(20px, 3vw, 45px); border-bottom: 1px solid #cec6b6; }
+.portal-reader-meta > div { display: grid; gap: 4px; }
+.portal-reader-meta > div:last-child { justify-items: end; text-align: right; }
+.portal-reader-meta span { color: #a07840; font-size: 8px; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
+.portal-reader-meta strong { font-family: var(--font-display); font-size: 20px; font-weight: 650; line-height: 1.1; }
+.portal-reader-meta > div:last-child strong { font-family: var(--font-interface); font-size: 10px; letter-spacing: .05em; }
+.portal-reader-meta small { max-width: 380px; overflow: hidden; color: #788179; font-family: var(--font-code); font-size: 8px; text-overflow: ellipsis; white-space: nowrap; }
+.portal-reader-stage iframe { display: block; width: 100%; height: calc(100vh - 72px - 86px - 46px); min-height: 620px; border: 0; background: #fbf9f2; }
+.portal-reader-pager { display: grid; grid-template-columns: 1fr 1fr; min-height: 46px; border-top: 1px solid #cec6b6; }
+.portal-reader-pager button { display: inline-flex; align-items: center; gap: 7px; padding: 0 20px; border: 0; background: transparent; color: #526057; cursor: pointer; font-size: 9px; font-weight: 750; letter-spacing: .09em; text-transform: uppercase; }
+.portal-reader-pager button:last-child { justify-self: end; }
+.portal-reader-pager button:hover { color: #a07840; }
+.portal-reader-pager svg { width: 13px; }
+
+@media (max-width: 980px) {
+  .portal-header { grid-template-columns: 1fr auto; }
+  .portal-header-meta { display: none; }
+  .portal-layout { grid-template-columns: 250px minmax(0, 1fr); }
+  .portal-reader-meta { grid-template-columns: 1fr; gap: 8px; }
+  .portal-reader-meta > div:last-child { display: none; }
+  .portal-reader-stage iframe { height: calc(100vh - 72px - 86px - 46px); }
+}
+
+@media (max-width: 760px) {
+  .portal-header { position: static; min-height: 66px; padding: 9px 15px; }
+  .portal-brand > span:first-child { width: 36px; height: 36px; }
+  .portal-brand strong { font-size: 17px; }
+  .portal-brand small { font-size: 8px; }
+  .portal-header > a { font-size: 0; }
+  .portal-header > a svg { width: 17px; }
+  .portal-mobile-select { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 10px; padding: 9px 15px; border-bottom: 1px solid #cec6b6; background: #fbf8f0; }
+  .portal-mobile-select > span { color: #a07840; font-size: 8px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+  .portal-mobile-select select { min-width: 0; width: 100%; height: 35px; border: 1px solid #cec6b6; background: #fffdf7; color: #17261d; font-family: var(--font-reading); font-size: 12px; }
+  .portal-layout { display: block; min-height: 0; }
+  .portal-layout > aside { display: none; }
+  .portal-overview-page { padding: 52px 23px 70px; box-shadow: none; }
+  .portal-overview-page > h1 { font-size: clamp(58px, 18vw, 84px); }
+  .portal-overview-page > h1 span:last-child { padding-left: 18px; }
+  .portal-deck { font-size: 20px; }
+  .portal-actions > * { width: 100%; }
+  .portal-thesis { margin-inline: -23px; padding: 45px 23px; }
+  .portal-map-head { grid-template-columns: 1fr; gap: 16px; }
+  .portal-map-head > p { grid-column: auto; }
+  .portal-map-head h2 { font-size: 35px; }
+  .portal-part-grid { grid-template-columns: 1fr; }
+  .portal-part-grid button, .portal-part-grid button:nth-child(odd), .portal-part-grid button:nth-child(even) { min-height: 146px; padding: 23px 42px 23px 0; border-right: 0; }
+  .portal-provenance { grid-template-columns: 1fr; gap: 14px; }
+  .portal-reader-meta { min-height: 78px; padding: 12px 16px; }
+  .portal-reader-meta strong { font-size: 18px; }
+  .portal-reader-stage iframe { height: calc(100vh - 66px - 54px - 78px - 46px); min-height: 560px; }
+}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+const PARTS = [
+  { number: 1, title: 'Foundations and the Governing Triad', range: 'Chapters 1–6' },
+  { number: 2, title: "Pakistan’s Digital and Virtual-Asset Legal Order", range: 'Chapters 7–9' },
+  { number: 3, title: 'Financial, Property, Integrity and Fiscal Order', range: 'Chapters 10–13' },
+  { number: 4, title: 'Digital Systems, Institutions, Rights and Remedies', range: 'Chapters 14–17' },
+  { number: 5, title: 'Comparative Digital-Asset Orders', range: 'Chapters 18–22' },
+  { number: 6, title: 'Global Standards and International Law', range: 'Chapters 23–25' },
+  { number: 7, title: "Building Pakistan’s Future Digital-Asset Order", range: 'Chapter 26' },
+];
+
+const CHAPTERS = [
+  { number: 1, title: 'The Governing Thesis: Code, Law and Capital', built: '1 September 2026, 03:49', part: 1 },
+  { number: 2, title: 'From Electronic Value to the Global Digital-Asset Order', built: '1 September 2026, 20:04', part: 1 },
+  { number: 3, title: "Pakistan’s Digital-Asset Order: From Perimeter Preservation to Statutory Recognition", built: '1 September 2026, 03:49', part: 1 },
+  { number: 4, title: 'Code: Digital-Asset Technologies, Functions and Control', built: '1 September 2026, 03:49', part: 1 },
+  { number: 5, title: 'Law: Authority, Interpretation and the Digital Legal Order', built: '31 August 2026', part: 1 },
+  { number: 6, title: 'Capital: Markets, Monetary Sovereignty and Distribution', built: '1 September 2026, 03:49', part: 1 },
+  { number: 7, title: "Pakistan’s Digital, Electronic and ICT Legal Architecture", built: '1 September 2026, 09:06', part: 2 },
+  { number: 8, title: 'The Virtual Assets Act 2026 and PVARA', built: '1 September 2026, 09:06', part: 2 },
+  { number: 9, title: 'Market Entry, Existing Participants and Transitional Legality', built: '1 September 2026, 20:04', part: 2 },
+  { number: 10, title: 'The Monetary and Financial Perimeter', built: '1 September 2026, 09:06', part: 3 },
+  { number: 11, title: 'Property, Custody, Customer Assets, Insolvency and Market Conduct', built: '31 August 2026', part: 3 },
+  { number: 12, title: 'Financial Integrity, Sanctions and Evidentiary Enforcement', built: '1 September 2026, 20:04', part: 3 },
+  { number: 13, title: 'Fiscal Order: Recognition, Taxation, Disclosure and Public Finance', built: '31 August 2026', part: 3 },
+  { number: 14, title: 'Data, Cybersecurity, Digital Identity and Evidence', built: '31 August 2026', part: 4 },
+  { number: 15, title: 'Smart Contracts, DeFi, DAOs and Autonomous Systems', built: '1 September 2026, 09:44', part: 4 },
+  { number: 16, title: 'Institutional Integrity, Federalism and Cross-Border Administration', built: '31 August 2026', part: 4 },
+  { number: 17, title: 'Enforcement, Tribunal, Courts and Constitutional Remedies', built: '31 August 2026', part: 4 },
+  { number: 18, title: 'The United States: Markets, Enforcement and the Contest for Regulatory Authority', built: '1 September 2026, 09:44', part: 5 },
+  { number: 19, title: 'The United Kingdom and European Legal Orders', built: '31 August 2026', part: 5 },
+  { number: 20, title: 'Asian and Asia-Pacific Digital-Asset Orders', built: '1 September 2026, 03:23', part: 5 },
+  { number: 21, title: 'GCC and Middle Eastern Digital-Asset Orders', built: '1 September 2026, 09:44', part: 5 },
+  { number: 22, title: 'ASEAN and Emerging Regional Models', built: '1 September 2026, 20:04', part: 5 },
+  { number: 23, title: 'Global Standards and Transnational Regulatory Coordination', built: '1 September 2026, 09:44', part: 6 },
+  { number: 24, title: 'Public International Law and Digital Assets', built: '1 September 2026, 09:44', part: 6 },
+  { number: 25, title: 'Private International Law and Cross-Border Digital Assets', built: '1 September 2026, 03:23', part: 6 },
+  { number: 26, title: "Building Pakistan’s Digital-Asset Order", built: '31 August 2026', part: 7 },
+];
+
+const readerPath = (n) => `/readers/chapter-${String(n).padStart(2, '0')}.html`;
+const pad = (n) => String(n).padStart(2, '0');
+
+function icon(name) {
+  const icons = {
+    book: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>',
+    search: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>',
+    ext: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>',
+    right: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>',
+    left: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>',
+    down: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3"/><path d="m7 10 5 5 5-5"/><path d="M20 21H4"/></svg>',
+  };
+  return icons[name] || '';
+}
+
+function getSelected() {
+  const v = Number(new URLSearchParams(location.search).get('chapter'));
+  return v >= 1 && v <= 26 ? v : null;
+}
+
+function choose(n) {
+  const url = n ? `?chapter=${pad(n)}` : location.pathname;
+  history.pushState({}, '', url);
+  render();
+}
+
+function renderContents(selected, filter) {
+  const needle = (filter || '').trim().toLowerCase();
+  const filtered = CHAPTERS.filter((c) => `${c.number} ${c.title}`.toLowerCase().includes(needle));
+  let html = `<nav class="portal-contents" aria-label="Digital Codex contents">
+    <button class="portal-overview${selected === null ? ' active' : ''}" data-choose="">
+      ${icon('book')}<span><strong>Codex overview</strong><small>Edition, scope and reading route</small></span>
+    </button>
+    <label class="portal-filter">${icon('search')}
+      <span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Filter chapter titles</span>
+      <input id="chapter-filter" value="${filter ? filter.replace(/"/g, '&quot;') : ''}" placeholder="Find a chapter">
+    </label>`;
+  for (const part of PARTS) {
+    const chapters = filtered.filter((c) => c.part === part.number);
+    if (!chapters.length) continue;
+    html += `<section class="portal-part">
+      <p>Part ${pad(part.number)} · ${part.range}</p>
+      <h2>${part.title}</h2>
+      ${chapters.map((c) => `<button class="portal-chapter${selected === c.number ? ' active' : ''}" data-choose="${c.number}"><span>${pad(c.number)}</span><span>${c.title}</span></button>`).join('')}
+    </section>`;
+  }
+  html += `</nav>`;
+  return html;
+}
+
+function renderOverview() {
+  const first = (n) => CHAPTERS.find((c) => c.part === n).number;
+  return `<main class="portal-overview-page">
+    <p class="portal-kicker">KSC · JUSNREM · Digital publication</p>
+    <h1><span>Code, Law</span><span>and Capital</span></h1>
+    <p class="portal-deck">The future of digital assets in Pakistan — presented as a navigable, paragraph-level Digital Codex across all twenty-six chapters.</p>
+    <div class="portal-status"><span>Reading corpus</span><strong>v0.25</strong><span>26 chapters</span><span>7 parts</span></div>
+    <div class="portal-actions">
+      <button data-choose="1">Begin with Chapter 1 ${icon('right')}</button>
+      <a href="/downloads/CLC-Detailed-Contents-26-Chapters.pdf" target="_blank" rel="noreferrer">Detailed contents ${icon('down')}</a>
+    </div>
+    <section class="portal-thesis">
+      <p>Governing proposition</p>
+      <blockquote>Code structures possibility. Law constitutes authority. Capital allocates power, value and risk.</blockquote>
+    </section>
+    <section class="portal-map">
+      <div class="portal-map-head">
+        <p>Complete architecture</p>
+        <h2>One Codex, seven connected inquiries.</h2>
+        <span>The structure follows the current twenty-six-chapter detailed contents. Select any part to enter its first chapter.</span>
+      </div>
+      <div class="portal-part-grid">
+        ${PARTS.map((part) => `<button data-choose="${first(part.number)}"><span>Part ${pad(part.number)}</span><h3>${part.title}</h3><p>${part.range}</p>${icon('right')}</button>`).join('')}
+      </div>
+    </section>
+    <section class="portal-provenance">
+      <p>Edition and provenance</p>
+      <div>
+        <h2>Latest located chapter readers</h2>
+        <p>This Codex uses the latest dated HTML reader located for each of Chapters 1–26. The chapter files were built between 31 August and 1 September 2026 from their stated source documents. "v0.25" identifies the reading corpus; it does not by itself assert final Author approval or legal authority.</p>
+      </div>
+    </section>
+  </main>`;
+}
+
+function renderReader(chapter) {
+  const index = CHAPTERS.findIndex((c) => c.number === chapter.number);
+  const prev = index > 0 ? CHAPTERS[index - 1] : null;
+  const next = index < CHAPTERS.length - 1 ? CHAPTERS[index + 1] : null;
+  return `<main class="portal-reader-stage">
+    <div class="portal-reader-meta">
+      <div><span>Chapter ${pad(chapter.number)}</span><strong>${chapter.title}</strong></div>
+      <div><span>Latest located HTML</span><strong>${chapter.built}</strong></div>
+    </div>
+    <iframe src="${readerPath(chapter.number)}" title="Chapter ${chapter.number}: ${chapter.title}"></iframe>
+    <nav class="portal-reader-pager" aria-label="Previous and next chapter">
+      ${prev ? `<button data-choose="${prev.number}">${icon('left')} Chapter ${prev.number}</button>` : '<span></span>'}
+      ${next ? `<button data-choose="${next.number}">Chapter ${next.number} ${icon('right')}</button>` : '<span></span>'}
+    </nav>
+  </main>`;
+}
+
+let filterValue = '';
+
+function render() {
+  const selected = getSelected();
+  const chapter = selected ? CHAPTERS.find((c) => c.number === selected) : null;
+  const root = document.getElementById('root');
+  root.innerHTML = `<div class="portal-shell${chapter ? ' reading' : ''}">
+    <header class="portal-header">
+      <button class="portal-brand" data-choose="" aria-label="Open the Digital Codex overview">
+        <span>CLC</span><span><strong>Code, Law and Capital</strong><small>Digital Codex · v0.25</small></span>
+      </button>
+      <div class="portal-header-meta"><span>26 chapters</span><span>Paragraph-level reading</span></div>
+      ${chapter ? `<a href="${readerPath(chapter.number)}" target="_blank" rel="noreferrer">Open standalone ${icon('ext')}</a>` : '<span></span>'}
+    </header>
+    <label class="portal-mobile-select">
+      <span>Chapter</span>
+      <select id="mobile-select">
+        <option value="">Codex overview</option>
+        ${CHAPTERS.map((c) => `<option value="${c.number}"${selected === c.number ? ' selected' : ''}>${c.number}. ${c.title}</option>`).join('')}
+      </select>
+    </label>
+    <div class="portal-layout">
+      <aside>${renderContents(selected, filterValue)}</aside>
+      ${chapter ? renderReader(chapter) : renderOverview()}
+    </div>
+  </div>`;
+
+  root.querySelectorAll('[data-choose]').forEach((el) => {
+    el.addEventListener('click', () => choose(el.getAttribute('data-choose') ? Number(el.getAttribute('data-choose')) : null));
+  });
+  const filterInput = document.getElementById('chapter-filter');
+  if (filterInput) {
+    filterInput.addEventListener('input', (e) => {
+      filterValue = e.target.value;
+      const pos = filterInput.selectionStart;
+      render();
+      const again = document.getElementById('chapter-filter');
+      if (again) { again.focus(); again.setSelectionRange(pos, pos); }
+    });
+  }
+  const mobileSelect = document.getElementById('mobile-select');
+  if (mobileSelect) {
+    mobileSelect.addEventListener('change', (e) => choose(e.target.value ? Number(e.target.value) : null));
+  }
+}
+
+window.addEventListener('popstate', render);
+render();
+</script>
+</body>
+</html>
