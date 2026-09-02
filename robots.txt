@@ -1,0 +1,24 @@
+# JUSNREM Digital Codex
+# Indexing is welcome. Bulk extraction for model training is not permitted.
+
+User-agent: *
+Allow: /
+
+User-agent: GPTBot
+Disallow: /
+User-agent: ClaudeBot
+Disallow: /
+User-agent: CCBot
+Disallow: /
+User-agent: Google-Extended
+Disallow: /
+User-agent: anthropic-ai
+Disallow: /
+User-agent: Applebot-Extended
+Disallow: /
+User-agent: Bytespider
+Disallow: /
+User-agent: meta-externalagent
+Disallow: /
+
+Sitemap: https://www.jusnrem.legal/sitemap.xml

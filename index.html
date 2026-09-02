@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JUSNREM Digital Codex — Legal Intelligence Ecosystem</title>
+<meta name="description" content="The JUSNREM Digital Codex: a legal intelligence ecosystem holding the treatises, registers and applied frameworks of Khurram Chughtai, published with their status and limits visible.">
+<link rel="canonical" href="https://www.jusnrem.legal/">
+<style>
+:root{
+  --ground:#F3EFE6; --surface:#FFF8EF; --ink:#18221F; --ink-2:#4E5853; --ink-3:#69716C;
+  --gold:#A8813C; --gold-soft:rgba(168,129,60,.13); --rule:#DCD3BC; --rule-2:#E7E0CE;
+  /* per-library accents, drawn from each work's own identity */
+  --clc:#233B2C; --ja:#A5452F; --cfo:#086A70; --reg:#554D73;
+  --sans:Aptos,"Segoe UI",system-ui,Inter,Helvetica,Arial,sans-serif;
+  --serif:Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:4.5rem}
+body{margin:0;background:var(--ground);color:var(--ink);
+  font:400 .95rem/1.62 var(--sans);-webkit-font-smoothing:antialiased}
+
+.masthead{position:sticky;top:0;z-index:50;background:rgba(243,239,230,.94);
+  backdrop-filter:blur(8px);border-bottom:1px solid var(--rule)}
+.masthead .in{max-width:74rem;margin:0 auto;padding:.7rem 1.4rem;display:flex;align-items:center;gap:1.4rem}
+.brand{text-decoration:none;color:var(--ink);line-height:1.15}
+.brand b{display:block;font:600 .78rem/1 var(--sans);letter-spacing:.19em;text-transform:uppercase}
+.brand span{display:block;margin-top:.22rem;font:400 .64rem/1 var(--sans);
+  letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3)}
+.mnav{margin-left:auto;display:flex;gap:1.25rem}
+.mnav a{font:500 .74rem/1 var(--sans);letter-spacing:.05em;color:var(--ink-2);
+  text-decoration:none;padding:.3rem 0;border-bottom:1px solid transparent}
+.mnav a:hover{color:var(--ink);border-bottom-color:var(--gold)}
+
+.wrap{max-width:74rem;margin:0 auto;padding:0 1.4rem}
+
+.hero{padding:4.4rem 0 3.4rem;border-bottom:1px solid var(--rule)}
+.chip{display:inline-block;font:600 .62rem/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;
+  padding:.4rem .62rem;border:1px solid var(--rule);color:var(--ink-2);background:var(--surface)}
+.chip.mark{border-color:var(--gold);color:#7A5D26}
+h1{margin:1.7rem 0 0;max-width:19ch;font:400 clamp(2.2rem,5.2vw,3.5rem)/1.12 var(--serif);
+  letter-spacing:-.013em;text-wrap:balance}
+h1 em{font-style:normal;color:var(--gold)}
+.standfirst{margin:1.6rem 0 0;max-width:58ch;font-size:1.07rem;line-height:1.66;color:var(--ink-2)}
+
+section{padding:3.4rem 0;border-bottom:1px solid var(--rule)}
+.seclabel{font:600 .64rem/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ink-3);margin-bottom:1.1rem}
+.seclabel i{font-style:normal;color:var(--gold);margin-right:.55rem}
+h2{margin:0 0 1.1rem;max-width:36ch;font:400 clamp(1.35rem,2.6vw,1.9rem)/1.28 var(--serif);
+  letter-spacing:-.008em;text-wrap:balance}
+.lede{max-width:62ch;color:var(--ink-2);margin:0 0 2rem}
+
+/* ---------- the libraries ---------- */
+.shelf{display:grid;gap:1.1rem}
+.work{position:relative;display:block;text-decoration:none;color:inherit;background:var(--surface);
+  border:1px solid var(--rule);padding:1.6rem 1.7rem 1.5rem 2.2rem;transition:border-color .15s,transform .15s}
+.work::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--accent,var(--gold))}
+a.work:hover{border-color:var(--accent,var(--gold));transform:translateX(2px)}
+.work .top{display:flex;flex-wrap:wrap;align-items:baseline;gap:.8rem;margin-bottom:.55rem}
+.work h3{margin:0;font:600 1.12rem/1.28 var(--sans);letter-spacing:-.005em}
+.work .kind{font:600 .6rem/1 var(--sans);letter-spacing:.15em;text-transform:uppercase;color:var(--accent,var(--gold))}
+.work p{margin:0;max-width:62ch;font-size:.9rem;line-height:1.6;color:var(--ink-2)}
+.editions{margin-top:1.1rem;display:flex;flex-wrap:wrap;gap:.35rem}
+.editions .ed{font:500 .68rem/1 var(--sans);letter-spacing:.03em;padding:.4rem .6rem;
+  border:1px dashed var(--rule);color:var(--ink-3);background:var(--ground)}
+.editions .ed.live{border-style:solid;border-color:var(--accent);color:var(--accent);font-weight:600}
+.work .meta{margin-top:1rem;display:flex;flex-wrap:wrap;gap:.45rem .5rem;align-items:center}
+.tag{font:600 .6rem/1 var(--sans);letter-spacing:.13em;text-transform:uppercase;
+  padding:.35rem .55rem;border:1px solid var(--rule-2);color:var(--ink-3);background:var(--ground)}
+.tag.live{border-color:var(--accent);color:var(--accent)}
+.work .go{margin-left:auto;font:600 .68rem/1 var(--sans);letter-spacing:.11em;
+  text-transform:uppercase;color:var(--accent,var(--gold))}
+.work.soon{opacity:.86}
+
+/* ---------- governance ---------- */
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:.1rem}
+.rules div{padding:1.15rem 1.25rem;background:var(--surface);border:1px solid var(--rule-2);margin:-1px 0 0 -1px}
+.rules dt{font:600 .64rem/1 var(--sans);letter-spacing:.15em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:.5rem}
+.rules dd{margin:0;font-size:.87rem;line-height:1.55;color:var(--ink-2)}
+.vocab{margin-top:1.6rem;display:flex;flex-wrap:wrap;gap:.45rem}
+.caveat{margin:1.6rem 0 0;max-width:64ch;font-size:.85rem;color:var(--ink-2)}
+
+/* ---------- ecosystem ---------- */
+.eco{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:.1rem}
+.eco a{display:block;padding:1.05rem 1.15rem;text-decoration:none;background:var(--surface);
+  border:1px solid var(--rule-2);margin:-1px 0 0 -1px;transition:background .13s}
+.eco a:hover{background:var(--gold-soft)}
+.eco .dom{display:block;font:600 .8rem/1.3 var(--sans);color:var(--ink);margin-bottom:.28rem}
+.eco .role{display:block;font-size:.8rem;line-height:1.5;color:var(--ink-2)}
+
+footer{padding:2.6rem 0 3.6rem;font-size:.8rem;color:var(--ink-3)}
+footer .mark{font:600 .62rem/1.6 var(--sans);letter-spacing:.15em;text-transform:uppercase;
+  color:var(--ink-2);margin-bottom:.8rem}
+footer p{margin:.45rem 0;max-width:66ch}
+a{color:var(--ink)}
+
+@media (max-width:760px){
+  .mnav{display:none}
+  section{padding:2.6rem 0}
+  .work{padding:1.3rem 1.2rem 1.2rem 1.6rem}
+  .work .go{margin-left:0}
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="in">
+    <a class="brand" href="/">
+      <b>JUSNREM Digital Codex</b>
+      <span>Legal Intelligence Ecosystem</span>
+    </a>
+    <nav class="mnav">
+      <a href="#libraries">Libraries</a>
+      <a href="#doctrines">Doctrines</a>
+      <a href="#governance">Governance</a>
+      <a href="#updates">Updates</a>
+      <a href="#ecosystem">Ecosystem</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="hero">
+    <span class="chip mark">First public edition</span>
+    <h1>Law must remain <em>locatable</em> when power changes form.</h1>
+    <p class="standfirst">
+      The Digital Codex holds the treatises, registers and applied frameworks of a
+      continuing inquiry into legal authority, institutional capability and remedy.
+      Each work is published with its status and limits visible, and each proposition
+      is addressed so that it can be found, cited and corrected.
+    </p>
+  </div>
+
+  <section id="libraries">
+    <div class="seclabel"><i>01</i> The libraries</div>
+    <h2>Distinct works, separately governed, deliberately not merged.</h2>
+    <p class="lede">
+      Each library is a legally and intellectually distinct body of work with its own
+      status, evidence discipline and release schedule. They share a citation scheme
+      and a doctrine register; they do not share conclusions.
+    </p>
+
+    <div class="shelf">
+
+      <a class="work" href="code-law-and-capital/" style="--accent:var(--clc)">
+        <div class="top">
+          <h3>Code, Law and Capital</h3>
+          <span class="kind">Edition family &middot; Digital assets and the emerging global legal order</span>
+        </div>
+        <p>
+          One jurisprudence and one analytical method applied across several legal
+          orders. Architecture determines capability, law determines authority, and
+          capital distributes value, power and loss. A global foundation carries the
+          universal propositions; jurisdictional editions record where each legal
+          order varies, and why.
+        </p>
+        <div class="editions">
+          <span class="ed live">Global Digital Assets Order</span>
+          <span class="ed">Pakistan</span>
+          <span class="ed">GCC</span>
+          <span class="ed">European Union</span>
+          <span class="ed">United States</span>
+          <span class="ed">ASEAN</span>
+        </div>
+        <div class="meta">
+          <span class="tag live">Reading corpus v0.25</span>
+          <span class="tag">Candidate and working research</span>
+          <span class="tag">1 chapter released</span>
+          <span class="go">Enter &rarr;</span>
+        </div>
+      </a>
+
+      <div class="work soon" style="--accent:var(--ja)">
+        <div class="top">
+          <h3>JUS.automica</h3>
+          <span class="kind">Jurisprudential programme</span>
+        </div>
+        <p>
+          The foundational inquiry: how law remains law when intelligence is
+          distributed. Constitutional authority, competence, attribution, evidence,
+          review and remedy in machine-mediated governance. Three candidate volumes
+          are in development.
+        </p>
+        <div class="meta">
+          <span class="tag">In development</span>
+          <span class="tag">Candidate volumes</span>
+          <span class="go"><a href="https://jus-automica.digital/" style="text-decoration:none;color:inherit">Programme site &nearr;</a></span>
+        </div>
+      </div>
+
+      <div class="work soon" style="--accent:var(--cfo)">
+        <div class="top">
+          <h3>The Constitution of Fiscal Order</h3>
+          <span class="kind">Treatise</span>
+        </div>
+        <p>
+          Public money as a constitutional question: appropriation, delegation,
+          taxing power, provincial and federal competence, and the institutions
+          through which fiscal authority is exercised and reviewed.
+        </p>
+        <div class="meta">
+          <span class="tag">In preparation</span>
+          <span class="tag">Not yet released</span>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="caveat">
+      Further works will be added as each reaches a state in which it can be read
+      with its evidence and status intact. A work is not listed here because it
+      exists in draft; it is listed when it can be cited.
+    </p>
+  </section>
+
+  <section id="doctrines">
+    <div class="seclabel"><i>02</i> Doctrine Register</div>
+    <h2>A doctrine is cited across works, so it needs an address of its own.</h2>
+    <p class="lede">
+      Doctrines do not belong to the chapter that first states them. The Register
+      gives each one a permanent record &mdash; canonical name, authorial definition,
+      provenance and first development, jurisprudential foundation, legal elements,
+      the applicable test, counterarguments, related doctrines, institutional examples
+      &mdash; and a status of exploratory, developed, settled or revised. Works then
+      cite the Register rather than restating it.
+    </p>
+    <span class="chip">In preparation &mdash; not yet published</span>
+  </section>
+
+  <section id="governance">
+    <div class="seclabel"><i>03</i> How the Codex is governed</div>
+    <h2>Claims must remain smaller than the evidence.</h2>
+    <dl class="rules">
+      <div>
+        <dt>Status is stated, not implied</dt>
+        <dd>Every proposition carries its research status. Publication does not convert
+            a candidate proposition into established law or an institutional deployment.</dd>
+      </div>
+      <div>
+        <dt>Sources are separated by rank</dt>
+        <dd>Constitutions, enacted statutes, notified instruments and binding judgments
+            are distinguished from policy, consultation history, guidance and empirical
+            assertion. Where the authenticated instrument is not held, the proposition
+            is qualified rather than upgraded by inference.</dd>
+      </div>
+      <div>
+        <dt>Nothing is silently overwritten</dt>
+        <dd>Substantive updates carry a date, a version and an explanation of what
+            changed and why. Earlier formulations remain part of the record.</dd>
+      </div>
+      <div>
+        <dt>Text is addressed, not paginated</dt>
+        <dd>Each work, chapter, section, paragraph and doctrine receives an identifier
+            intended to survive revision, so the digital edition can be cited precisely.</dd>
+      </div>
+    </dl>
+    <p class="caveat">
+      The permanent citation scheme is still being fixed. Paragraph numbering in
+      released chapters is provisional and should not yet be relied on for fixed
+      pinpoint citation.
+    </p>
+    <p class="caveat">
+      These publications are independent evidence-controlled analysis. They are not
+      legal advice to any person, a regulatory approval, an offer of investment, a
+      prediction of market performance, or a substitute for checking the law
+      applicable to a particular activity at the relevant time. Nothing here
+      represents governmental authority.
+    </p>
+  </section>
+
+  <section id="updates">
+    <div class="seclabel"><i>04</i> Living updates</div>
+    <h2>A treatise that cannot record change becomes a historical document.</h2>
+    <p class="lede">
+      Legislative and regulatory developments, judgments and administrative decisions,
+      standards and technical change, and jurisdictional comparisons will be recorded
+      against the propositions they affect &mdash; each dated, with its consequence for
+      the earlier text stated rather than absorbed in silence.
+    </p>
+    <span class="chip">In preparation</span>
+  </section>
+
+  <section id="ecosystem">
+    <div class="seclabel"><i>05</i> Ecosystem</div>
+    <h2>The Codex is the published record. It is not the whole of the work.</h2>
+    <div class="eco">
+      <a href="https://ksc-jusnrem.io/"><span class="dom">ksc-jusnrem.io</span><span class="role">Institutional umbrella and official public record</span></a>
+      <a href="https://ksc.bio/"><span class="dom">ksc.bio</span><span class="role">Person, journey and authorship</span></a>
+      <a href="https://jus-automica.digital/"><span class="dom">jus-automica.digital</span><span class="role">Jurisprudential research programme</span></a>
+      <a href="https://ksc-jusnrem.space/"><span class="dom">ksc-jusnrem.space</span><span class="role">Governed inquiry commons</span></a>
+      <a href="https://constitution.codes/"><span class="dom">constitution.codes</span><span class="role">Applied Constitutional Intelligence Engine</span></a>
+      <a href="https://budget.codes/"><span class="dom">budget.codes</span><span class="role">Applied Fiscal Intelligence and Law-as-Code Engine</span></a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="mark">Part of the KSC.JUSNREM ecosystem &middot; Institutional source &middot; Person and authorship &middot; Jurisprudence &middot; Commons &middot; Applied engines</div>
+    <p>JUSNREM Digital Codex. Khurram Chughtai.</p>
+    <p>&copy; 2026 KSC.JUSNREM. A domain does not create an institution, and a
+       publication does not prove an operating capability.</p>
+  </footer>
+
+</div>
+</body>
+</html>
