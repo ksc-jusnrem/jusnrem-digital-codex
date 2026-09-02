@@ -54,6 +54,70 @@ def eyebrow_for(slug: str) -> str:
     return "Code, Law and Capital"
 
 
+CHAPTERS = {
+    1: "The Governing Thesis: Code, Law and Capital",
+    2: "From Electronic Value to the Global Digital-Asset Order",
+    3: "Pakistan’s Digital-Asset Order: From Perimeter Preservation to Statutory Recognition",
+    4: "Code: Digital-Asset Technologies, Functions and Control",
+    5: "Law: Authority, Interpretation and the Digital Legal Order",
+    6: "Capital: Markets, Monetary Sovereignty and Distribution",
+    7: "Pakistan’s Digital, Electronic and ICT Legal Architecture",
+    8: "The Virtual Assets Act 2026 and PVARA",
+    9: "Market Entry, Existing Participants and Transitional Legality",
+    10: "The Monetary and Financial Perimeter",
+    11: "Property, Custody, Customer Assets, Insolvency and Market Conduct",
+    12: "Financial Integrity, Sanctions and Evidentiary Enforcement",
+    13: "Fiscal Order: Recognition, Taxation, Disclosure and Public Finance",
+    14: "Data, Cybersecurity, Digital Identity and Evidence",
+    15: "Smart Contracts, DeFi, DAOs and Autonomous Systems",
+    16: "Institutional Integrity, Federalism and Cross-Border Administration",
+    17: "Enforcement, Tribunal, Courts and Constitutional Remedies",
+    18: "The United States: Markets, Enforcement and the Contest for Regulatory Authority",
+    19: "The United Kingdom and European Legal Orders",
+    20: "Asian and Asia-Pacific Digital-Asset Orders",
+    21: "GCC and Middle Eastern Digital-Asset Orders",
+    22: "ASEAN and Emerging Regional Models",
+    23: "Global Standards and Transnational Regulatory Coordination",
+    24: "Public International Law and Digital Assets",
+    25: "Private International Law and Cross-Border Digital Assets",
+    26: "Building Pakistan’s Digital-Asset Order",
+}
+PART_NAMES = {
+    1: "Foundations and the Governing Triad",
+    2: "Pakistan’s Digital and Virtual-Asset Legal Order",
+    3: "Financial, Property, Integrity and Fiscal Order",
+    4: "Digital Systems, Institutions, Rights and Remedies",
+    5: "Comparative Digital-Asset Orders",
+    6: "Global Standards and International Law",
+    7: "Building Pakistan’s Future Digital-Asset Order",
+}
+
+
+def work_nav(current: str, chapter_toc: str = "") -> str:
+    """The whole Codex, on every page, with the current unit expanded.
+
+    A reader inside one chapter must be able to reach any other without
+    returning to the library index.
+    """
+    out, seen = [], None
+    for n, title in CHAPTERS.items():
+        part = PARTS[n]
+        if part != seen:
+            seen = part
+            out.append(f'<li class="pt"><span>Part {part:02d} &middot; '
+                       f'{html.escape(PART_NAMES[part])}</span></li>')
+        slug = f"chapter-{n:02d}"
+        here = " here" if slug == current else ""
+        out.append(f'<li class="ch{here}"><a href="{slug}.html">'
+                   f'<b>{n:02d}</b> {html.escape(title)}</a>'
+                   + (chapter_toc if here else "") + "</li>")
+    for slug, label in (("front-matter", "Front matter"), ("back-matter", "Back matter")):
+        here = " here" if slug == current else ""
+        out.append(f'<li class="ch app{here}"><a href="{slug}.html"><b>&mdash;</b> {label}</a>'
+                   + (chapter_toc if here else "") + "</li>")
+    return "".join(out)
+
+
 def read_pane(src: str) -> str:
     """Isolate the READ pane; everything else in the Reader is apparatus."""
     start = src.index('<div class="pane on" id="read">')
@@ -199,6 +263,8 @@ def render(doc: dict, note_map: dict) -> str:
         title_text=html.escape(text_of(doc["title"])),
         subtitle=doc["subtitle"],
         contents="".join(contents),
+        worknav=work_nav(doc.get("slug", ""),
+                         '<ol class="seclist">' + "".join(contents) + "</ol>"),
         body="".join(body),
         notes=notes_html,
         note_data=note_map,
@@ -259,16 +325,54 @@ body{{margin:0;background:var(--backdrop);color:var(--ink);font:400 1.0625rem/1.
 .sidebar{{position:sticky;top:3.1rem;max-height:calc(100vh - 3.1rem);overflow-y:auto;
   padding:1.6rem 1rem 3rem 1.2rem;font-family:var(--sans);
   border-right:1px solid var(--rule)}}
+.sidebar .up{{display:block;font:600 .64rem/1.4 var(--sans);letter-spacing:.09em;
+  text-transform:uppercase;color:var(--ink-mute);text-decoration:none;margin-bottom:1rem}}
+.sidebar .up:hover{{color:var(--gold)}}
 .sidebar h2{{font:600 .68rem/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;
-  color:var(--ink-mute);margin:0 0 .9rem}}
+  color:var(--ink-head);margin:0 0 .8rem;padding-bottom:.6rem;border-bottom:1px solid var(--rule)}}
 .sidebar ol{{list-style:none;margin:0;padding:0}}
-.sidebar a{{display:block;padding:.24rem .45rem;font-size:.79rem;line-height:1.35;
+
+/* the whole work, on every page */
+.worknav .pt span{{display:block;margin:1rem 0 .35rem;font:600 .58rem/1.35 var(--sans);
+  letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}}
+.worknav .ch a{{display:flex;gap:.5rem;padding:.26rem .4rem;font-size:.76rem;line-height:1.35;
   color:var(--ink-soft);text-decoration:none;border-left:2px solid transparent;border-radius:2px}}
-.sidebar a:hover{{color:var(--green);background:rgba(168,129,60,.09)}}
-.sidebar a.here{{color:var(--green);font-weight:600;border-left-color:var(--gold);
+.worknav .ch a b{{flex:none;font-weight:600;color:#B9B09C;font-variant-numeric:tabular-nums}}
+.worknav .ch a:hover{{color:var(--green);background:rgba(168,129,60,.09)}}
+.worknav .ch a:hover b{{color:var(--gold)}}
+.worknav .ch.here > a{{color:var(--green);font-weight:600;border-left-color:var(--gold);
   background:rgba(168,129,60,.13)}}
-.toc-l3 a{{padding-left:1.15rem;font-size:.75rem;color:var(--ink-mute)}}
-.toc-l4 a{{padding-left:1.9rem;font-size:.73rem;color:var(--ink-mute)}}
+.worknav .ch.here > a b{{color:var(--gold)}}
+.worknav .ch.app a{{color:var(--ink-mute);font-style:italic}}
+.worknav .seclist{{margin:.2rem 0 .5rem;padding:0 0 0 1.35rem;
+  border-left:1px solid var(--rule)}}
+.worknav .seclist a{{display:block;padding:.16rem .4rem;font-size:.72rem;line-height:1.35;
+  color:var(--ink-mute);text-decoration:none;border-left:2px solid transparent}}
+.worknav .seclist a:hover{{color:var(--green)}}
+.worknav .seclist a.here{{color:var(--green);font-weight:600;border-left-color:var(--gold)}}
+.worknav .seclist .toc-l3 a{{padding-left:.9rem}}
+.worknav .seclist .toc-l4 a{{padding-left:1.6rem}}
+
+/* breadcrumb */
+.crumb{{margin:0 0 1.6rem;font:500 .74rem/1.5 var(--sans);color:var(--ink-mute)}}
+.crumb a{{color:var(--ink-soft);text-decoration:none;border-bottom:1px solid var(--rule)}}
+.crumb a:hover{{color:var(--gold);border-bottom-color:var(--gold)}}
+.crumb span{{margin:0 .45rem;color:var(--rule)}}
+.crumb em{{font-style:normal;color:var(--ink)}}
+
+/* on this page, in the reading column */
+.onthispage{{margin:0 0 2.4rem;padding:1.1rem 1.3rem;background:var(--surface);
+  border:1px solid var(--rule)}}
+.onthispage h2{{margin:0 0 .7rem;font:600 .62rem/1 var(--sans);letter-spacing:.18em;
+  text-transform:uppercase;color:var(--ink-mute)}}
+.onthispage ol{{list-style:none;margin:0;padding:0;columns:2;column-gap:2rem}}
+.onthispage li{{break-inside:avoid;margin:.12rem 0}}
+.onthispage a{{font-size:.82rem;line-height:1.45;color:var(--green);text-decoration:none;
+  border-bottom:1px solid transparent}}
+.onthispage a:hover{{border-bottom-color:var(--gold);color:var(--gold)}}
+.onthispage .toc-l3 a{{padding-left:.9rem;font-size:.78rem;color:var(--ink-soft)}}
+.onthispage .toc-l4 a{{padding-left:1.7rem;font-size:.76rem;color:var(--ink-mute)}}
+@media (max-width:640px){{.onthispage ol{{columns:1}}}}
 
 /* ---- sheet ---- */
 .sheet{{background:#fff;border-left:1px solid var(--rule);border-right:1px solid var(--rule);
@@ -384,7 +488,7 @@ mark{{background:rgba(168,129,60,.34);color:inherit;padding:0 .08em}}
 @media print{{
   @page{{size:Letter;margin:.85in}}
   body{{background:#fff;font:400 10.4pt/1.62 var(--serif)}}
-  .masthead,.sidebar,#searchnote,.fnpop,button.fnbtn{{display:none!important}}
+  .masthead,.sidebar,#searchnote,.fnpop,button.fnbtn,.crumb,.onthispage{{display:none!important}}
   .shell{{display:block;max-width:none}}
   .sheet{{border:0;padding:0;min-height:0}}
   .ptext{{text-align:justify;hyphens:auto}}
@@ -412,9 +516,10 @@ mark{{background:rgba(168,129,60,.34);color:inherit;padding:0 .08em}}
 </header>
 
 <div class="shell">
-  <nav class="sidebar" id="sidebar" aria-label="Chapter contents">
-    <h2>On this page</h2>
-    <ol>{contents}</ol>
+  <nav class="sidebar" id="sidebar" aria-label="Codex contents">
+    <a class="up" href="../">&larr; JUSNREM Digital Codex</a>
+    <h2>Code, Law and Capital</h2>
+    <ol class="worknav">{worknav}</ol>
     <p id="searchnote" hidden></p>
   </nav>
 
@@ -428,6 +533,15 @@ mark{{background:rgba(168,129,60,.34);color:inherit;padding:0 .08em}}
       <div class="rule"><i></i><b></b></div>
       <div class="byline">Khurram Chughtai</div>
     </div>
+    <nav class="crumb" aria-label="Breadcrumb">
+      <a href="../">Digital Codex</a> <span>/</span>
+      <a href="index.html">Code, Law and Capital</a> <span>/</span>
+      <em>{eyebrow}</em>
+    </nav>
+    <nav class="onthispage" aria-label="On this page">
+      <h2>On this page</h2>
+      <ol>{contents}</ol>
+    </nav>
     {body}
     <section class="notes" aria-label="Footnotes">
       <h2>Footnotes</h2>
@@ -487,7 +601,7 @@ document.addEventListener('keydown', e => {{ if (e.key === 'Escape') closePop();
 window.addEventListener('resize', closePop);
 
 /* Sidebar: current-section highlight. */
-const links = [...document.querySelectorAll('.sidebar a')];
+const links = [...document.querySelectorAll('.sidebar .seclist a')];
 const targets = links.map(a => document.getElementById(a.getAttribute('href').slice(1))).filter(Boolean);
 const spy = new IntersectionObserver(entries => {{
   entries.forEach(en => {{
