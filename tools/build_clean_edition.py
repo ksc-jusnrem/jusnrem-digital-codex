@@ -70,9 +70,12 @@ def parse(pane: str) -> dict:
     # Walk headings and paragraphs in document order.
     STOP = r'(?=<div class="para"|<(?:h[2-4]) id=|<figure|<div class="(?:caption|figurenote)"|$)'
     pattern = re.compile(
-        r'<(h[2-4]) id="([\w-]+)" class="hsec sec"[^>]*>(.*?)</\1>'
+        # Two Reader generations exist: newer builds write class="hsec sec",
+        # older builds write a bare <h2 id="s2-1">. Inner markup is identical,
+        # so the class is optional here.
+        r'<(h[2-4]) id="(s[\w-]*|sx\d+)"(?:\s+class="hsec sec")?[^>]*>(.*?)</\1>'
         r'|<div class="para" id="(p\d+)" data-pid="\4">(.*?)' + STOP +
-        r'|<figure>\s*<img([^>]*)>\s*</figure>'
+        r'|<figure([^>]*)>\s*<img([^>]*)>\s*</figure>'
         r'|<div class="caption">(.*?)</div>'
         r'|<div class="figurenote">(.*?)</div>',
         re.S,
@@ -96,12 +99,14 @@ def parse(pane: str) -> dict:
                 {"kind": "para", "id": m.group(4), "num": m.group(4)[1:],
                  "html": (t.group(1) if t else body).strip()}
             )
-        elif m.group(6) is not None:
-            doc["blocks"].append({"kind": "figure", "attrs": m.group(6).strip()})
         elif m.group(7) is not None:
-            doc["blocks"].append({"kind": "caption", "html": m.group(7).strip()})
+            doc["blocks"].append({"kind": "figure",
+                                  "figattrs": (m.group(6) or "").strip(),
+                                  "attrs": m.group(7).strip()})
+        elif m.group(8) is not None:
+            doc["blocks"].append({"kind": "caption", "html": m.group(8).strip()})
         else:
-            doc["blocks"].append({"kind": "fignote", "html": m.group(8).strip()})
+            doc["blocks"].append({"kind": "fignote", "html": m.group(9).strip()})
     return doc
 
 
@@ -116,13 +121,25 @@ def render(doc: dict, note_map: dict) -> str:
             cap = next((x["html"] for x in blocks[i + 1 : i + 3] if x["kind"] == "caption"), "")
             note = next((x["html"] for x in blocks[i + 1 : i + 3] if x["kind"] == "fignote"), "")
             attrs = re.sub(r'\salt="[^"]*"', "", b["attrs"])
-            alt = html.escape(text_of(note or cap), quote=True)
-            body.append(
-                f'<figure><img {attrs} alt="{alt}">'
-                + (f'<figcaption>{cap}</figcaption>' if cap else "")
-                + (f'<p class="fignote">{note}</p>' if note else "")
-                + "</figure>"
+            decorative = (
+                "aria-hidden" in b.get("figattrs", "")
+                or (not cap and not note and 'alt=""' in b["attrs"])
             )
+            if decorative:
+                # An ornament carries no information: keep it, but keep it silent
+                # for assistive technology rather than inventing a description.
+                body.append(
+                    f'<figure class="ornament" aria-hidden="true">'
+                    f'<img {attrs} alt=""></figure>'
+                )
+            else:
+                alt = html.escape(text_of(note or cap), quote=True)
+                body.append(
+                    f'<figure><img {attrs} alt="{alt}">'
+                    + (f'<figcaption>{cap}</figcaption>' if cap else "")
+                    + (f'<p class="fignote">{note}</p>' if note else "")
+                    + "</figure>"
+                )
             continue
         if b["kind"] == "heading":
             lvl = b["level"]
@@ -269,6 +286,8 @@ figure{{margin:2.2rem 0}}
 img{{max-width:100%;height:auto;display:block;border:1px solid var(--rule-faint)}}
 figcaption{{margin-top:.7rem;font:600 1.02rem/1.35 var(--display);color:var(--oxblood)}}
 .fignote{{margin:.5rem 0 0;font:italic 400 .82rem/1.5 var(--serif);color:var(--ink-mute)}}
+figure.ornament{{margin:2rem auto;max-width:16rem;opacity:.55}}
+figure.ornament img{{border:0}}
 
 /* ---- footnotes: inline popover, print endnotes ---- */
 sup.fnref{{line-height:0}}

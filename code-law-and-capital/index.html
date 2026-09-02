@@ -95,6 +95,12 @@ ol.chapters .t{flex:1;font-size:.9rem;line-height:1.45}
 ol.chapters .s{flex:none;font:600 .6rem/1.5 var(--sans);letter-spacing:.13em;
   text-transform:uppercase;color:var(--ink-3)}
 ol.chapters a:hover .s{color:var(--gold)}
+.matter a{display:flex;gap:1.05rem;align-items:baseline;padding:.72rem .5rem;
+  text-decoration:none;color:var(--ink);border-bottom:1px solid var(--rule-2);transition:background .13s}
+.matter a:hover{background:var(--gold-soft)}
+.matter .n{flex:none;width:2rem;color:var(--gold);font:600 .74rem/1.5 var(--sans)}
+.matter .t{flex:1;font-size:.9rem}
+.matter .s{flex:none;font:600 .6rem/1.5 var(--sans);letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3)}
 ol.chapters .pending{color:var(--ink-3);cursor:default}
 ol.chapters .pending .n{color:var(--ink-3)}
 
@@ -220,7 +226,7 @@ a{color:var(--ink)}
       the work. Chapters are released as each passes editorial review; the remainder
       are listed so the architecture of the whole is visible.
     </p>
-    <div id="chapterlist"></div>
+    <div class="matter"><a href="front-matter.html"><span class="n">&mdash;</span><span class="t">Front Matter</span><span class="s">Read &rarr;</span></a></div><div id="chapterlist"></div><div class="matter"><a href="back-matter.html"><span class="n">&mdash;</span><span class="t">Back Matter</span><span class="s">Read &rarr;</span></a></div>
   </section>
 
   <section id="doctrines">
@@ -324,7 +330,7 @@ const TITLES = {
  26:"Building Pakistan’s Digital-Asset Order"
 };
 /* Chapters whose clean reading edition has passed review and is published. */
-const RELEASED = new Set([1]);
+const RELEASED = new Set([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26]);
 
 const host = document.getElementById('chapterlist');
 let out = '';
