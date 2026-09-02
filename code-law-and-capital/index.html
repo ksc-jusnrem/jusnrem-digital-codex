@@ -95,6 +95,18 @@ ol.chapters .t{flex:1;font-size:.9rem;line-height:1.45}
 ol.chapters .s{flex:none;font:600 .6rem/1.5 var(--sans);letter-spacing:.13em;
   text-transform:uppercase;color:var(--ink-3)}
 ol.chapters a:hover .s{color:var(--gold)}
+.dl{display:grid;grid-template-columns:repeat(auto-fit,minmax(17rem,1fr));gap:.1rem}
+.dl-item{display:block;padding:1.15rem 1.25rem;background:var(--surface);
+  border:1px solid var(--rule-2);margin:-1px 0 0 -1px;text-decoration:none;
+  color:var(--ink);transition:background .13s}
+.dl-item:hover{background:var(--gold-soft)}
+.dl-kind{display:block;font:600 .6rem/1 var(--sans);letter-spacing:.14em;
+  text-transform:uppercase;color:var(--gold);margin-bottom:.5rem}
+.dl-name{display:block;font:600 .95rem/1.3 var(--sans);margin-bottom:.35rem}
+.dl-note{display:block;font-size:.82rem;line-height:1.5;color:var(--ink-2)}
+.dl-go{display:block;margin-top:.7rem;font:600 .66rem/1 var(--sans);
+  letter-spacing:.11em;text-transform:uppercase;color:var(--ink-3)}
+.dl-item:hover .dl-go{color:var(--gold)}
 .matter a{display:flex;gap:1.05rem;align-items:baseline;padding:.72rem .5rem;
   text-decoration:none;color:var(--ink);border-bottom:1px solid var(--rule-2);transition:background .13s}
 .matter a:hover{background:var(--gold-soft)}
@@ -146,6 +158,7 @@ a{color:var(--ink)}
       <a href="#test">The test</a>
       <a href="#codex">The Codex</a>
       <a href="#doctrines">Doctrines</a>
+      <a href="#reference">Reference</a>
       <a href="#status">Status</a>
       <a href="#ecosystem">Ecosystem</a>
     </nav>
@@ -226,7 +239,7 @@ a{color:var(--ink)}
       the work. Chapters are released as each passes editorial review; the remainder
       are listed so the architecture of the whole is visible.
     </p>
-    <div class="matter"><a href="front-matter.html"><span class="n">&mdash;</span><span class="t">Front Matter</span><span class="s">Read &rarr;</span></a></div><div id="chapterlist"></div><div class="matter"><a href="back-matter.html"><span class="n">&mdash;</span><span class="t">Back Matter</span><span class="s">Read &rarr;</span></a></div>
+    <div id="chapterlist"></div>
   </section>
 
   <section id="doctrines">
@@ -242,8 +255,41 @@ a{color:var(--ink)}
     <span class="chip">In preparation &mdash; not yet published</span>
   </section>
 
+
+  <section id="reference">
+    <div class="seclabel"><i>05</i> Reference and downloads</div>
+    <h2>The apparatus of the printed edition, kept separate from the reading text.</h2>
+    <p class="lede">
+      These are production documents for the print edition. They are published here
+      for completeness, not as part of the reading sequence: the contents of this
+      Codex are the chapter list above, and page numbers in the printed apparatus
+      refer to the printed edition alone.
+    </p>
+    <div class="dl">
+      <a class="dl-item" href="../downloads/CLC-Detailed-Contents-26-Chapters.pdf" download>
+        <span class="dl-kind">PDF &middot; 8 pages &middot; 1.5&nbsp;MB</span>
+        <span class="dl-name">Detailed contents, 26 chapters</span>
+        <span class="dl-note">Full section-level contents for the whole work.</span>
+        <span class="dl-go">Download &darr;</span>
+      </a>
+      <a class="dl-item" href="front-matter.html">
+        <span class="dl-kind">Print apparatus &middot; incomplete</span>
+        <span class="dl-name">Front matter</span>
+        <span class="dl-note">Title pages, printed contents and abbreviations. Its
+          contents list is not navigable and its page numbers are those of the
+          printed edition.</span>
+        <span class="dl-go">Open &rarr;</span>
+      </a>
+      <a class="dl-item" href="back-matter.html">
+        <span class="dl-kind">Print apparatus</span>
+        <span class="dl-name">Back matter</span>
+        <span class="dl-note">Tables of authorities and closing apparatus.</span>
+        <span class="dl-go">Open &rarr;</span>
+      </a>
+    </div>
+  </section>
   <section id="status">
-    <div class="seclabel"><i>05</i> Edition and provenance</div>
+    <div class="seclabel"><i>06</i> Edition and provenance</div>
     <h2>Claims must remain smaller than the evidence.</h2>
     <dl class="status">
       <div><dt>Reading corpus</dt><dd>v0.25</dd></div>
@@ -269,7 +315,7 @@ a{color:var(--ink)}
   </section>
 
   <section id="ecosystem">
-    <div class="seclabel"><i>06</i> Ecosystem</div>
+    <div class="seclabel"><i>07</i> Ecosystem</div>
     <h2>The Codex is one environment among several, and does not stand for the whole.</h2>
     <div class="eco">
       <a href="https://ksc-jusnrem.io/"><span class="dom">ksc-jusnrem.io</span><span class="role">Institutional umbrella and official public record</span></a>

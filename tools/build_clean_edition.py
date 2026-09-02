@@ -32,6 +32,28 @@ RULE_FAINT = "#E2DACA"
 OXBLOOD = "#7A2E22"
 
 
+PARTS = {  # chapter -> part number, per the Codex architecture
+    **{c: 1 for c in range(1, 7)}, **{c: 2 for c in range(7, 10)},
+    **{c: 3 for c in range(10, 14)}, **{c: 4 for c in range(14, 18)},
+    **{c: 5 for c in range(18, 23)}, **{c: 6 for c in range(23, 26)}, 26: 7,
+}
+WORDS = ("One Two Three Four Five Six Seven Eight Nine Ten Eleven Twelve Thirteen "
+         "Fourteen Fifteen Sixteen Seventeen Eighteen Nineteen Twenty Twenty-One "
+         "Twenty-Two Twenty-Three Twenty-Four Twenty-Five Twenty-Six").split()
+
+
+def eyebrow_for(slug: str) -> str:
+    """The line above the chapter title, derived from the unit rather than fixed."""
+    if slug == "front-matter":
+        return "Front matter &middot; print apparatus"
+    if slug == "back-matter":
+        return "Back matter &middot; print apparatus"
+    if slug.startswith("chapter-"):
+        n = int(slug.split("-")[1])
+        return f"Chapter {WORDS[n - 1]} &middot; Part {PARTS.get(n, '')}".strip()
+    return "Code, Law and Capital"
+
+
 def read_pane(src: str) -> str:
     """Isolate the READ pane; everything else in the Reader is apparatus."""
     start = src.index('<div class="pane on" id="read">')
@@ -172,6 +194,7 @@ def render(doc: dict, note_map: dict) -> str:
     )
 
     return TEMPLATE.format(
+        eyebrow=doc.get("eyebrow", "Code, Law and Capital"),
         title=doc["title"],
         title_text=html.escape(text_of(doc["title"])),
         subtitle=doc["subtitle"],
@@ -399,7 +422,7 @@ mark{{background:rgba(168,129,60,.34);color:inherit;padding:0 .08em}}
     <div class="cover">
       <div class="plate" role="presentation"></div>
       <div class="frame" role="presentation"></div>
-      <div class="eyebrow">Chapter One &middot; Part A</div>
+      <div class="eyebrow">{eyebrow}</div>
       <h1>{title}</h1>
       <div class="subtitle">{subtitle}</div>
       <div class="rule"><i></i><b></b></div>
@@ -552,6 +575,7 @@ def main() -> None:
     src = src_path.read_text(encoding="utf-8")
 
     doc = parse(read_pane(src))
+    doc["eyebrow"] = eyebrow_for(out_path.stem)
     note_map = "{" + ",".join(
         '"%s":%s' % (fid, _js(txt)) for fid, txt in doc["notes"]
     ) + "}"
