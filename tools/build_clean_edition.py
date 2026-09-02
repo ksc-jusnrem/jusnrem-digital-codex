@@ -68,7 +68,8 @@ def parse(pane: str) -> dict:
         pane = pane[: pane.index('<div class="notes">')]
 
     # Walk headings and paragraphs in document order.
-    STOP = r'(?=<div class="para"|<(?:h[2-4]) id=|<figure|<div class="(?:caption|figurenote)"|$)'
+    STOP = (r'(?=<div class="para"|<(?:h[2-4]) id=|<figure'
+            r'|<div class="(?:caption|figurenote|tablewrap)"|<table|$)')
     pattern = re.compile(
         # Two Reader generations exist: newer builds write class="hsec sec",
         # older builds write a bare <h2 id="s2-1">. Inner markup is identical,
@@ -76,6 +77,7 @@ def parse(pane: str) -> dict:
         r'<(h[2-4]) id="(s[\w-]*|sx\d+)"(?:\s+class="hsec sec")?[^>]*>(.*?)</\1>'
         r'|<div class="para" id="(p\d+)" data-pid="\4">(.*?)' + STOP +
         r'|<figure([^>]*)>\s*<img([^>]*)>\s*</figure>'
+        r'|<div class="tablewrap">\s*(<table.*?</table>)\s*</div>'
         r'|<div class="caption">(.*?)</div>'
         r'|<div class="figurenote">(.*?)</div>',
         re.S,
@@ -104,9 +106,11 @@ def parse(pane: str) -> dict:
                                   "figattrs": (m.group(6) or "").strip(),
                                   "attrs": m.group(7).strip()})
         elif m.group(8) is not None:
-            doc["blocks"].append({"kind": "caption", "html": m.group(8).strip()})
+            doc["blocks"].append({"kind": "table", "html": m.group(8).strip()})
+        elif m.group(9) is not None:
+            doc["blocks"].append({"kind": "caption", "html": m.group(9).strip()})
         else:
-            doc["blocks"].append({"kind": "fignote", "html": m.group(9).strip()})
+            doc["blocks"].append({"kind": "fignote", "html": m.group(10).strip()})
     return doc
 
 
@@ -116,6 +120,9 @@ def render(doc: dict, note_map: dict) -> str:
     for i, b in enumerate(blocks):
         if b["kind"] in ("caption", "fignote"):
             continue  # emitted with the figure they belong to
+        if b["kind"] == "table":
+            body.append(f'<div class="tablewrap">{b["html"]}</div>')
+            continue
         if b["kind"] == "figure":
             # The caption and the accessible description follow the image.
             cap = next((x["html"] for x in blocks[i + 1 : i + 3] if x["kind"] == "caption"), "")
@@ -286,6 +293,15 @@ figure{{margin:2.2rem 0}}
 img{{max-width:100%;height:auto;display:block;border:1px solid var(--rule-faint)}}
 figcaption{{margin-top:.7rem;font:600 1.02rem/1.35 var(--display);color:var(--oxblood)}}
 .fignote{{margin:.5rem 0 0;font:italic 400 .82rem/1.5 var(--serif);color:var(--ink-mute)}}
+.tablewrap{{margin:1.8rem 0;overflow-x:auto;-webkit-overflow-scrolling:touch}}
+.tablewrap table{{border-collapse:collapse;width:100%;min-width:34rem;
+  font:400 .84rem/1.5 var(--sans)}}
+.tablewrap th{{text-align:left;padding:.55rem .7rem;border-bottom:1.2pt solid var(--gold);
+  font:600 .74rem/1.4 var(--sans);color:var(--ink-head);vertical-align:bottom}}
+.tablewrap td{{padding:.5rem .7rem;border-bottom:1px solid var(--rule-faint);
+  vertical-align:top;color:var(--ink)}}
+.tablewrap tr:last-child td{{border-bottom:0}}
+.tablewrap th strong,.tablewrap td strong{{font-weight:600}}
 figure.ornament{{margin:2rem auto;max-width:16rem;opacity:.55}}
 figure.ornament img{{border:0}}
 
@@ -354,6 +370,9 @@ mark{{background:rgba(168,129,60,.34);color:inherit;padding:0 .08em}}
   h1,h2,h3,h4{{break-after:avoid}}
   p,.para{{orphans:2;widows:2}}
   sup.fnref a{{background:none;color:var(--ink);padding:0;font-size:.7em}}
+  .tablewrap{{overflow:visible}}
+  .tablewrap table{{min-width:0;font-size:8.6pt}}
+  .tablewrap thead{{display:table-header-group}}
   .notes{{break-before:page}}
   a{{color:var(--ink);text-decoration:none}}
 }}

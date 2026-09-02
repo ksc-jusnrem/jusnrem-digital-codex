@@ -102,6 +102,15 @@ figure{margin:2.2rem 0}
 img{max-width:100%;height:auto;display:block;border:1px solid var(--rule-faint)}
 figcaption{margin-top:.7rem;font:600 1.02rem/1.35 var(--display);color:var(--oxblood)}
 .fignote{margin:.5rem 0 0;font:italic 400 .82rem/1.5 var(--serif);color:var(--ink-mute)}
+.tablewrap{margin:1.8rem 0;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tablewrap table{border-collapse:collapse;width:100%;min-width:34rem;
+  font:400 .84rem/1.5 var(--sans)}
+.tablewrap th{text-align:left;padding:.55rem .7rem;border-bottom:1.2pt solid var(--gold);
+  font:600 .74rem/1.4 var(--sans);color:var(--ink-head);vertical-align:bottom}
+.tablewrap td{padding:.5rem .7rem;border-bottom:1px solid var(--rule-faint);
+  vertical-align:top;color:var(--ink)}
+.tablewrap tr:last-child td{border-bottom:0}
+.tablewrap th strong,.tablewrap td strong{font-weight:600}
 figure.ornament{margin:2rem auto;max-width:16rem;opacity:.55}
 figure.ornament img{border:0}
 
@@ -170,6 +179,9 @@ mark{background:rgba(168,129,60,.34);color:inherit;padding:0 .08em}
   h1,h2,h3,h4{break-after:avoid}
   p,.para{orphans:2;widows:2}
   sup.fnref a{background:none;color:var(--ink);padding:0;font-size:.7em}
+  .tablewrap{overflow:visible}
+  .tablewrap table{min-width:0;font-size:8.6pt}
+  .tablewrap thead{display:table-header-group}
   .notes{break-before:page}
   a{color:var(--ink);text-decoration:none}
 }
