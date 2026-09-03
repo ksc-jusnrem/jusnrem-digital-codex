@@ -19,17 +19,17 @@ import sys
 from pathlib import Path
 
 # ---------------------------------------------------------------- v0.20 tokens
-GREEN = "#233B2C"
-GOLD = "#A8813C"
-INK = "#241E13"
-INK_HEAD = "#17150F"
-INK_SOFT = "#3A3226"
-INK_MUTE = "#6A6152"
-CREAM = "#F4EFDE"
-BACKDROP = "#E9E4D6"
-RULE = "#DCD3BC"
-RULE_FAINT = "#E2DACA"
-OXBLOOD = "#7A2E22"
+GREEN = "#43652E"
+GOLD = "#43652E"
+INK = "#141E0E"
+INK_HEAD = "#141E0E"
+INK_SOFT = "#2F3A2C"
+INK_MUTE = "#556155"
+CREAM = "#FFFFFF"
+BACKDROP = "#F4F6F2"
+RULE = "#C7D1C0"
+RULE_FAINT = "#E4EAE0"
+OXBLOOD = "#652E43"
 
 
 PARTS = {  # chapter -> part number, per the Codex architecture
@@ -421,11 +421,11 @@ TEMPLATE = """<!doctype html>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
 :root{{
-  --green:{green}; --gold:{gold}; --surface:#FFF8EF; --ink:{ink}; --ink-head:{ink_head};
+  --green:{green}; --gold:{gold}; --surface:#FFFFFF; --ink:{ink}; --ink-head:{ink_head};
   --ink-soft:{ink_soft}; --ink-mute:{ink_mute}; --cream:{cream};
   --backdrop:{backdrop}; --rule:{rule}; --rule-faint:{rule_faint}; --oxblood:{oxblood};
-  --gold-text:#7F6226;   /* 4.98:1 on ground - gold as TEXT */
-  --gold-on-dark:#C9A05A; /* 5.00:1 on the green masthead */
+  --gold-text:#2F4720;   /* 4.98:1 on ground - gold as TEXT */
+  --gold-on-dark:#FFFFFF; /* 5.00:1 on the green masthead */
   --sans:Archivo,"Helvetica Neue",Arial,sans-serif;
   --serif:Spectral,Georgia,"Times New Roman",serif;
   --display:"Cormorant Garamond",Georgia,serif;
@@ -444,15 +444,15 @@ body{{margin:0;background:var(--backdrop);color:var(--ink);font:400 1.0625rem/1.
 .masthead .work span{{color:var(--gold)}}
 .masthead form{{margin-left:auto;display:flex;align-items:center}}
 #q{{font:400 .82rem var(--sans);padding:.32rem .6rem;width:14rem;max-width:38vw;
-  border:1px solid rgba(244,239,222,.35);background:rgba(244,239,222,.08);
+  border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.10);
   color:var(--cream);border-radius:2px}}
-#q::placeholder{{color:rgba(244,239,222,.55)}}
+#q::placeholder{{color:rgba(255,255,255,.60)}}
 .allsearch{{margin-left:.6rem;font:600 .64rem/1 var(--sans);letter-spacing:.1em;
   text-transform:uppercase;color:var(--gold-on-dark);text-decoration:none;white-space:nowrap}}
 .allsearch:hover{{color:var(--cream)}}
 #q:focus{{outline:2px solid var(--gold);outline-offset:1px}}
 #navtoggle{{display:none;font:600 .72rem var(--sans);letter-spacing:.12em;text-transform:uppercase;
-  background:none;border:1px solid rgba(244,239,222,.4);color:var(--cream);
+  background:none;border:1px solid rgba(255,255,255,.4);color:var(--cream);
   padding:.3rem .55rem;border-radius:2px;cursor:pointer}}
 
 /* ---- shell ---- */
@@ -475,11 +475,11 @@ body{{margin:0;background:var(--backdrop);color:var(--ink);font:400 1.0625rem/1.
   letter-spacing:.14em;text-transform:uppercase;color:var(--gold-text)}}
 .worknav .ch a{{display:flex;gap:.5rem;padding:.26rem .4rem;font-size:.76rem;line-height:1.35;
   color:var(--ink-soft);text-decoration:none;border-left:2px solid transparent;border-radius:2px}}
-.worknav .ch a b{{flex:none;font-weight:600;color:#B9B09C;font-variant-numeric:tabular-nums}}
-.worknav .ch a:hover{{color:var(--green);background:rgba(168,129,60,.09)}}
+.worknav .ch a b{{flex:none;font-weight:600;color:#556155;font-variant-numeric:tabular-nums}}
+.worknav .ch a:hover{{color:var(--green);background:rgba(67,101,46,.08)}}
 .worknav .ch a:hover b{{color:var(--gold)}}
 .worknav .ch.here > a{{color:var(--green);font-weight:600;border-left-color:var(--gold);
-  background:rgba(168,129,60,.13)}}
+  background:rgba(67,101,46,.10)}}
 .worknav .ch.here > a b{{color:var(--gold)}}
 .worknav .ch.app a{{color:var(--ink-mute);font-style:italic}}
 .worknav .seclist{{margin:.2rem 0 .5rem;padding:0 0 0 1.35rem;
@@ -520,19 +520,19 @@ body{{margin:0;background:var(--backdrop);color:var(--ink);font:400 1.0625rem/1.
   background:var(--green);color:var(--cream);overflow:hidden}}
 .cover .plate{{position:absolute;inset:0;background:url("assets/clc-cover.jpg") center/cover no-repeat;
   opacity:.20;filter:grayscale(.25)}}
-.cover .frame{{position:absolute;inset:.7rem;border:2px solid rgba(168,129,60,.45);
+.cover .frame{{position:absolute;inset:.7rem;border:2px solid rgba(255,255,255,.40);
   pointer-events:none}}
 .cover > *:not(.plate):not(.frame){{position:relative}}
 .cover .eyebrow{{font:600 .68rem/1 var(--sans);letter-spacing:.24em;text-transform:uppercase;
   color:var(--gold-on-dark);margin-bottom:1rem}}
 .cover .rule{{display:flex;align-items:center;gap:.6rem;margin:.9rem 0 0;width:60%}}
 .cover .rule i{{display:block;width:5px;height:5px;background:var(--gold);transform:rotate(45deg)}}
-.cover .rule b{{flex:1;height:1px;background:rgba(168,129,60,.6)}}
+.cover .rule b{{flex:1;height:1px;background:rgba(255,255,255,.5)}}
 h1{{margin:0;font:600 2.5rem/1.12 var(--display);color:var(--cream);text-wrap:balance}}
 .cover .subtitle{{margin-top:.7rem;font:500 1.12rem/1.35 var(--display);font-style:italic;
   color:var(--gold-on-dark)}}
 .cover .byline{{margin-top:1.1rem;font:500 .72rem/1 var(--sans);letter-spacing:.28em;
-  text-transform:uppercase;color:rgba(244,239,222,.85)}}
+  text-transform:uppercase;color:rgba(255,255,255,.85)}}
 
 h2.sec{{margin:2.6rem 0 .9rem;padding-bottom:.4rem;border-bottom:1px solid var(--rule);
   font:600 1.32rem/1.3 var(--sans);letter-spacing:.02em;color:var(--ink-head);text-wrap:balance}}
@@ -543,13 +543,13 @@ h4.sec{{margin:1.5rem 0 .5rem;font:600 .95rem/1.35 var(--sans);color:var(--ink-s
 /* ---- paragraphs ---- */
 .para{{position:relative;margin:0 0 1.05rem;padding-left:2.6rem;scroll-margin-top:5rem}}
 .pnum{{position:absolute;left:0;top:.28rem;width:2rem;text-align:right;
-  font:500 .68rem/1 var(--sans);color:#766F60;text-decoration:none;
+  font:500 .68rem/1 var(--sans);color:#556155;text-decoration:none;
   font-variant-numeric:tabular-nums;transition:color .12s}}
 .para:hover .pnum,.pnum:focus{{color:var(--gold-text)}}
-.para:target .ptext{{background:rgba(168,129,60,.1);box-shadow:-.5rem 0 0 rgba(168,129,60,.1),.5rem 0 0 rgba(168,129,60,.1)}}
+.para:target .ptext{{background:rgba(67,101,46,.09);box-shadow:-.5rem 0 0 rgba(67,101,46,.09),.5rem 0 0 rgba(67,101,46,.09)}}
 .ptext{{max-width:34rem;text-align:left;text-wrap:pretty}}
 .ptext em{{font-style:italic}}
-a.xref{{color:var(--green);text-decoration:none;border-bottom:1px solid rgba(35,59,44,.28);
+a.xref{{color:var(--green);text-decoration:none;border-bottom:1px solid rgba(47,71,32,.32);
   transition:border-color .12s,color .12s}}
 a.xref:hover{{color:var(--gold);border-bottom-color:var(--gold)}}
 a.xref::after{{content:"↗";font-size:.72em;vertical-align:.35em;margin-left:.1em;
@@ -614,9 +614,9 @@ button.fnbtn:hover,button.fnbtn[aria-expanded=true]{{background:var(--gold)}}
 .notes ol{{margin:0;padding-left:1.4rem}}
 .notes li{{margin:.45rem 0;font-size:.85rem;line-height:1.5;color:var(--ink-soft);
   scroll-margin-top:5rem}}
-.notes li:target{{background:rgba(168,129,60,.12)}}
+.notes li:target{{background:rgba(67,101,46,.10)}}
 .backref{{color:var(--gold-text);text-decoration:none;margin-right:.25rem}}
-a.cite-url{{color:var(--green);text-decoration:none;border-bottom:1px solid rgba(35,59,44,.3);
+a.cite-url{{color:var(--green);text-decoration:none;border-bottom:1px solid rgba(67,101,46,.3);
   word-break:break-word}}
 a.cite-url:hover{{color:var(--gold);border-bottom-color:var(--gold)}}
 @media print{{a.cite-url{{border-bottom:0;color:inherit}}}}
@@ -624,7 +624,7 @@ a{{color:var(--green)}}
 a:hover{{color:var(--gold)}}
 
 /* ---- search ---- */
-mark{{background:rgba(168,129,60,.34);color:inherit;padding:0 .08em}}
+mark{{background:rgba(105,132,88,.38);color:inherit;padding:0 .08em}}
 .nohit{{display:none}}
 #searchnote{{font:500 .76rem var(--sans);color:var(--ink-mute);margin:1rem 0 0}}
 
@@ -661,7 +661,7 @@ mark{{background:rgba(168,129,60,.34);color:inherit;padding:0 .08em}}
   .sheet{{border:0;padding:0;min-height:0}}
   .ptext{{text-align:justify;hyphens:auto}}
   .para{{padding-left:2.2rem}}
-  .pnum{{color:#8A8272}}
+  .pnum{{color:#556155}}
   h1,h2,h3,h4{{break-after:avoid}}
   p,.para{{orphans:2;widows:2}}
   sup.fnref a{{background:none;color:var(--ink);padding:0;font-size:.7em}}

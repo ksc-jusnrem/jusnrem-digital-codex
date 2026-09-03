@@ -204,14 +204,14 @@ PAGE = """<!doctype html>
 <link rel="canonical" href="https://www.jusnrem.legal/doctrines.html">
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Cormorant+Garamond:wght@500;600&family=Spectral:wght@400&display=swap" rel="stylesheet">
 <style>
-:root{--ground:#F3EFE6;--surface:#FFF8EF;--ink:#18221F;--ink-2:#4E5853;--ink-3:#69716C;
- --gold:#A8813C;--gold-soft:rgba(168,129,60,.13);--rule:#DCD3BC;--rule-2:#E7E0CE;
- --green:#233B2C;--rust:#A5452F;--violet:#554D73;
+:root{--ground:#F4F6F2;--surface:#FFFFFF;--ink:#141E0E;--ink-2:#4A5648;--ink-3:#556155;
+ --gold:#43652E;--gold-soft:rgba(67,101,46,.10);--rule:#C7D1C0;--rule-2:#D9E0D5;
+ --green:#43652E;--rust:#652E43;--violet:#698458;
  --sans:Aptos,"Segoe UI",system-ui,Inter,Helvetica,Arial,sans-serif;
  --serif:Georgia,"Iowan Old Style","Times New Roman",serif;}
 *{box-sizing:border-box}
 body{margin:0;background:var(--ground);color:var(--ink);font:400 .95rem/1.6 var(--sans)}
-.masthead{position:sticky;top:0;z-index:50;background:rgba(243,239,230,.95);
+.masthead{position:sticky;top:0;z-index:50;background:rgba(244,246,242,.95);
  backdrop-filter:blur(8px);border-bottom:1px solid var(--rule)}
 .masthead .in{max-width:76rem;margin:0 auto;padding:.7rem 1.4rem;display:flex;align-items:center;gap:1.2rem}
 .brand{text-decoration:none;color:var(--ink)}
@@ -228,10 +228,10 @@ h1{margin:0;font:400 clamp(1.9rem,4.2vw,2.7rem)/1.15 var(--serif);letter-spacing
 .stat{margin-top:1.5rem;display:flex;flex-wrap:wrap;gap:.5rem}
 .stat b{font:600 .62rem/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;
  padding:.45rem .65rem;border:1px solid var(--rule);background:var(--surface);color:var(--ink-2)}
-.note{margin:1.7rem 0 0;padding:1.05rem 1.2rem;background:rgba(168,129,60,.10);
+.note{margin:1.7rem 0 0;padding:1.05rem 1.2rem;background:rgba(67,101,46,.09);
  border:1px solid var(--gold);border-left-width:4px;max-width:74ch}
 .note b{display:block;font:600 .62rem/1 var(--sans);letter-spacing:.15em;
- text-transform:uppercase;color:#7A5D26;margin-bottom:.5rem}
+ text-transform:uppercase;color:#2F4720;margin-bottom:.5rem}
 .note p{margin:0 0 .6rem;font-size:.87rem;line-height:1.6;color:var(--ink-2)}
 .note p:last-child{margin-bottom:0}
 h2{margin:3rem 0 .4rem;font:600 1.05rem var(--sans)}
@@ -251,7 +251,7 @@ td.pv .ct{display:block;margin-top:.25rem;font-size:.78rem;color:var(--ink-3)}
 .st{display:inline-block;font:600 .58rem/1 var(--sans);letter-spacing:.11em;
  text-transform:uppercase;padding:.34rem .5rem;border:1px solid var(--rule-2);white-space:nowrap}
 .st-work{border-color:var(--green);color:var(--green)}
-.st-cand{border-color:var(--gold);color:#7A5D26}
+.st-cand{border-color:var(--gold);color:#2F4720}
 .st-expl{color:var(--ink-3)}
 footer{padding:3rem 0;margin-top:3rem;border-top:1px solid var(--rule);font-size:.8rem;color:var(--ink-3)}
 a{color:var(--green)}

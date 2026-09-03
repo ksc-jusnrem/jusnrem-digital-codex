@@ -12,9 +12,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Cormorant+Garamond:wght@500;600&family=Spectral:wght@400&display=swap" rel="stylesheet">
 <style>
 :root{
-  --ground:#F3EFE6; --surface:#FFF8EF; --ink:#18221F; --ink-2:#4E5853; --ink-3:#5D655F;
-  --gold:#A8813C; --gold-text:#7F6226; --gold-soft:rgba(168,129,60,.13);
-  --rule:#C7BB9C; --rule-2:#D8CEB4; --green:#233B2C; --rust:#A5452F;
+  --ground:#F4F6F2; --surface:#FFFFFF; --ink:#141E0E; --ink-2:#4A5648; --ink-3:#556155;
+  --gold:#43652E; --gold-text:#2F4720; --gold-soft:rgba(67,101,46,.10);
+  --rule:#C7D1C0; --rule-2:#D9E0D5; --green:#43652E; --rust:#652E43;
   --sans:Aptos,"Segoe UI",system-ui,Inter,Helvetica,Arial,sans-serif;
   --serif:Georgia,"Iowan Old Style","Times New Roman",serif;
 }
@@ -22,7 +22,7 @@
 body{margin:0;background:var(--ground);color:var(--ink);font:400 1rem/1.62 var(--sans)}
 :where(a,button,[tabindex]):focus-visible{outline:2px solid var(--gold-text);outline-offset:2px}
 
-.masthead{position:sticky;top:0;z-index:50;background:rgba(243,239,230,.95);
+.masthead{position:sticky;top:0;z-index:50;background:rgba(244,246,242,.95);
   backdrop-filter:blur(8px);border-bottom:1px solid var(--rule)}
 .masthead .in{max-width:70rem;margin:0 auto;padding:.7rem 1.4rem;display:flex;align-items:center;gap:1.2rem}
 .brand{text-decoration:none;color:var(--ink)}
@@ -57,9 +57,9 @@ input:focus,select:focus{outline:2px solid var(--gold-text);outline-offset:1px}
 
 .msg{margin-top:1.1rem;padding:.85rem 1rem;font-size:.87rem;line-height:1.55;border:1px solid;display:none}
 .msg.show{display:block}
-.msg.ok{border-color:var(--green);background:rgba(35,59,44,.06);color:var(--green)}
-.msg.err{border-color:var(--rust);background:rgba(165,69,47,.07);color:var(--rust)}
-.msg.info{border-color:var(--gold);background:var(--gold-soft);color:#6E5522}
+.msg.ok{border-color:var(--green);background:rgba(67,101,46,.07);color:var(--green)}
+.msg.err{border-color:var(--rust);background:rgba(101,46,67,.07);color:var(--rust)}
+.msg.info{border-color:var(--gold);background:var(--gold-soft);color:#2F4720}
 
 .what h2{margin:0 0 .9rem;font:600 1rem var(--sans)}
 .what ul{margin:0 0 2rem;padding:0;list-style:none}
@@ -70,7 +70,7 @@ input:focus,select:focus{outline:2px solid var(--gold-text);outline-offset:1px}
 .note{padding:1.05rem 1.2rem;background:var(--surface);border:1px solid var(--gold);
   border-left-width:4px;max-width:60ch}
 .note b{display:block;font:600 .62rem/1 var(--sans);letter-spacing:.15em;
-  text-transform:uppercase;color:#6E5522;margin-bottom:.5rem}
+  text-transform:uppercase;color:#2F4720;margin-bottom:.5rem}
 .note p{margin:0;font-size:.87rem;line-height:1.6;color:var(--ink-2)}
 
 .acct-row{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;
