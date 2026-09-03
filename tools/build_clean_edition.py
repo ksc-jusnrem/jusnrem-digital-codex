@@ -285,6 +285,49 @@ def linkify(fragment: str, self_slug: str, sections: dict, misses: list) -> str:
     return "".join(out)
 
 
+READING_ORDER = (["front-matter"] + [f"chapter-{n:02d}" for n in range(1, 27)]
+                 + ["back-matter"])
+
+
+def pager_for(slug: str) -> str:
+    """Previous unit, contents, next unit — present at every width.
+
+    The sidebar carries the whole work, but it is hidden below 960px, so without
+    this a reader who reaches the end of a chapter on a phone has no way forward.
+    """
+    if slug not in READING_ORDER:
+        return ""
+
+    def label(s):
+        if s == "front-matter":
+            return "Front matter", ""
+        if s == "back-matter":
+            return "Back matter", ""
+        n = int(s.split("-")[1])
+        return f"Chapter {n}", CHAPTERS.get(n, "")
+
+    i = READING_ORDER.index(slug)
+    prev_s = READING_ORDER[i - 1] if i > 0 else None
+    next_s = READING_ORDER[i + 1] if i < len(READING_ORDER) - 1 else None
+
+    def cell(s, side):
+        if not s:
+            return '<span class="pg-end"></span>'
+        eyebrow, title = label(s)
+        arrow = "&larr;" if side == "prev" else "&rarr;"
+        return (f'<a class="pg-{side}" href="{s}.html">'
+                f'<span class="pg-dir">{arrow} {"Previous" if side == "prev" else "Next"}</span>'
+                f'<span class="pg-ch">{html.escape(eyebrow)}</span>'
+                + (f'<span class="pg-ti">{html.escape(title)}</span>' if title else "")
+                + '</a>')
+
+    return ('<nav class="pager" aria-label="Chapter navigation">'
+            + cell(prev_s, "prev")
+            + '<a class="pg-all" href="index.html">All chapters</a>'
+            + cell(next_s, "next")
+            + '</nav>')
+
+
 def render(doc: dict, note_map: dict, sections: dict | None = None,
            misses: list | None = None) -> str:
     sections = sections or {}
@@ -351,6 +394,7 @@ def render(doc: dict, note_map: dict, sections: dict | None = None,
         title_text=html.escape(text_of(doc["title"])),
         subtitle=doc["subtitle"],
         contents="".join(contents),
+        pager=pager_for(doc.get("slug", "")),
         worknav=work_nav(doc.get("slug", ""),
                          '<ol class="seclist">' + "".join(contents) + "</ol>"),
         body="".join(body),
@@ -544,6 +588,26 @@ button.fnbtn:hover,button.fnbtn[aria-expanded=true]{{background:var(--gold)}}
   font:400 .84rem/1.5 var(--serif);color:var(--ink-soft);border-radius:2px}}
 .fnpop .close{{float:right;margin:-.3rem -.3rem 0 .5rem;border:0;background:none;
   font:600 .95rem/1 var(--sans);color:var(--ink-mute);cursor:pointer}}
+.pager{{display:grid;grid-template-columns:1fr auto 1fr;gap:1rem;align-items:stretch;
+  margin:3rem 0 0;padding-top:1.6rem;border-top:1px solid var(--rule)}}
+.pager a{{display:flex;flex-direction:column;gap:.2rem;padding:.9rem 1rem;
+  text-decoration:none;color:var(--ink);border:1px solid var(--rule);
+  background:var(--surface);min-height:44px;justify-content:center;transition:border-color .15s}}
+.pager a:hover{{border-color:var(--gold-text)}}
+.pg-next{{text-align:right}}
+.pg-dir{{font:600 .6rem/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;
+  color:var(--gold-text)}}
+.pg-ch{{font:600 .84rem/1.3 var(--sans)}}
+.pg-ti{{font:400 .8rem/1.35 var(--serif);color:var(--ink-mute)}}
+.pg-all{{align-self:center;font:600 .64rem/1 var(--sans);letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink-2);white-space:nowrap;flex-direction:row}}
+.pg-end{{display:block}}
+@media (max-width:640px){{
+  .pager{{grid-template-columns:1fr;gap:.5rem}}
+  .pg-next{{text-align:left}}
+  .pg-all{{order:3;justify-content:center}}
+}}
+@media print{{.pager{{display:none}}}}
 .notes{{margin-top:3.5rem;border-top:1px solid var(--rule);padding-top:1.4rem}}
 .notes h2{{font:600 .72rem/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;
   color:var(--ink-mute);margin:0 0 1rem}}
@@ -652,6 +716,7 @@ mark{{background:rgba(168,129,60,.34);color:inherit;padding:0 .08em}}
       <h2>Footnotes</h2>
       <ol>{notes}</ol>
     </section>
+    {pager}
   </main>
 </div>
 
