@@ -28,7 +28,7 @@ PART_NAME = {1: "Foundations and the Governing Triad",
              6: "Global Standards and International Law",
              7: "Building Pakistan's Future Digital-Asset Order"}
 PART_COLOUR = {1: "#43652E", 2: "#652E43", 3: "#43652E", 4: "#698458",
-               5: "#2F4720", 6: "#4A5648", 7: "#43652E"}
+               5: "#2F4720", 6: "#3C484D", 7: "#43652E"}
 
 W, PAD_X, BASE, ARC_MAX = 1160, 54, 300, 232
 
@@ -124,13 +124,13 @@ PAGE = """<!doctype html>
 <link rel="canonical" href="https://www.jusnrem.legal/map.html">
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Cormorant+Garamond:wght@500;600&family=Spectral:wght@400&display=swap" rel="stylesheet">
 <style>
-:root{--ground:#F4F6F2;--surface:#FFFFFF;--ink:#141E0E;--ink-2:#4A5648;--ink-3:#556155;
- --gold:#43652E;--rule:#C7D1C0;--rule-2:#D9E0D5;--green:#43652E;
+:root{--ground:#EEF0F0;--surface:#FFFFFF;--ink:#111516;--ink-2:#3C484D;--ink-3:#56676E;
+ --gold:#43652E;--rule:#CCD1D4;--rule-2:#DDE1E2;--green:#43652E;
  --sans:Aptos,"Segoe UI",system-ui,Inter,Helvetica,Arial,sans-serif;
  --serif:Georgia,"Iowan Old Style","Times New Roman",serif;}
 *{box-sizing:border-box}
 body{margin:0;background:var(--ground);color:var(--ink);font:400 .95rem/1.6 var(--sans)}
-.masthead{position:sticky;top:0;z-index:50;background:rgba(244,246,242,.95);
+.masthead{position:sticky;top:0;z-index:50;background:rgba(238,240,240,.95);
  backdrop-filter:blur(8px);border-bottom:1px solid var(--rule)}
 .masthead .in{max-width:76rem;margin:0 auto;padding:.7rem 1.4rem;display:flex;align-items:center;gap:1.2rem}
 .brand{text-decoration:none;color:var(--ink)}
@@ -207,7 +207,7 @@ a{color:var(--green)}
   <figure>
     <svg id="g" viewBox="0 0 {{W}} {{H}}" role="img"
          aria-label="Arc diagram of cross-references between the 26 chapters">
-      <line x1="40" y1="300" x2="{{W}}" y2="300" stroke="#C7D1C0" stroke-width="1"
+      <line x1="40" y1="300" x2="{{W}}" y2="300" stroke="#CCD1D4" stroke-width="1"
             transform="translate(-20,0)"/>
       {{ARCS}}
       {{NODES}}

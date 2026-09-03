@@ -204,14 +204,14 @@ PAGE = """<!doctype html>
 <link rel="canonical" href="https://www.jusnrem.legal/doctrines.html">
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Cormorant+Garamond:wght@500;600&family=Spectral:wght@400&display=swap" rel="stylesheet">
 <style>
-:root{--ground:#F4F6F2;--surface:#FFFFFF;--ink:#141E0E;--ink-2:#4A5648;--ink-3:#556155;
- --gold:#43652E;--gold-soft:rgba(67,101,46,.10);--rule:#C7D1C0;--rule-2:#D9E0D5;
+:root{--ground:#EEF0F0;--surface:#FFFFFF;--ink:#111516;--ink-2:#3C484D;--ink-3:#56676E;
+ --gold:#43652E;--gold-soft:rgba(67,101,46,.10);--rule:#CCD1D4;--rule-2:#DDE1E2;
  --green:#43652E;--rust:#652E43;--violet:#698458;
  --sans:Aptos,"Segoe UI",system-ui,Inter,Helvetica,Arial,sans-serif;
  --serif:Georgia,"Iowan Old Style","Times New Roman",serif;}
 *{box-sizing:border-box}
 body{margin:0;background:var(--ground);color:var(--ink);font:400 .95rem/1.6 var(--sans)}
-.masthead{position:sticky;top:0;z-index:50;background:rgba(244,246,242,.95);
+.masthead{position:sticky;top:0;z-index:50;background:rgba(238,240,240,.95);
  backdrop-filter:blur(8px);border-bottom:1px solid var(--rule)}
 .masthead .in{max-width:76rem;margin:0 auto;padding:.7rem 1.4rem;display:flex;align-items:center;gap:1.2rem}
 .brand{text-decoration:none;color:var(--ink)}

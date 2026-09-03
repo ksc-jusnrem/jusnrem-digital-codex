@@ -9,9 +9,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
 :root{
-  --green:#43652E; --gold:#43652E; --surface:#FFFFFF; --ink:#141E0E; --ink-head:#141E0E;
-  --ink-soft:#2F3A2C; --ink-mute:#556155; --cream:#FFFFFF;
-  --backdrop:#F4F6F2; --rule:#C7D1C0; --rule-faint:#E4EAE0; --oxblood:#652E43;
+  --green:#43652E; --gold:#43652E; --surface:#FFFFFF; --ink:#111516; --ink-head:#111516;
+  --ink-soft:#22292C; --ink-mute:#56676E; --cream:#FFFFFF;
+  --backdrop:#EEF0F0; --rule:#CCD1D4; --rule-faint:#EEF0F0; --oxblood:#652E43;
   --gold-text:#2F4720;   /* 4.98:1 on ground - gold as TEXT */
   --gold-on-dark:#FFFFFF; /* 5.00:1 on the green masthead */
   --sans:Archivo,"Helvetica Neue",Arial,sans-serif;
@@ -63,7 +63,7 @@ body{margin:0;background:var(--backdrop);color:var(--ink);font:400 1.0625rem/1.6
   letter-spacing:.14em;text-transform:uppercase;color:var(--gold-text)}
 .worknav .ch a{display:flex;gap:.5rem;padding:.26rem .4rem;font-size:.76rem;line-height:1.35;
   color:var(--ink-soft);text-decoration:none;border-left:2px solid transparent;border-radius:2px}
-.worknav .ch a b{flex:none;font-weight:600;color:#556155;font-variant-numeric:tabular-nums}
+.worknav .ch a b{flex:none;font-weight:600;color:#56676E;font-variant-numeric:tabular-nums}
 .worknav .ch a:hover{color:var(--green);background:rgba(67,101,46,.08)}
 .worknav .ch a:hover b{color:var(--gold)}
 .worknav .ch.here > a{color:var(--green);font-weight:600;border-left-color:var(--gold);
@@ -131,7 +131,7 @@ h4.sec{margin:1.5rem 0 .5rem;font:600 .95rem/1.35 var(--sans);color:var(--ink-so
 /* ---- paragraphs ---- */
 .para{position:relative;margin:0 0 1.05rem;padding-left:2.6rem;scroll-margin-top:5rem}
 .pnum{position:absolute;left:0;top:.28rem;width:2rem;text-align:right;
-  font:500 .68rem/1 var(--sans);color:#556155;text-decoration:none;
+  font:500 .68rem/1 var(--sans);color:#56676E;text-decoration:none;
   font-variant-numeric:tabular-nums;transition:color .12s}
 .para:hover .pnum,.pnum:focus{color:var(--gold-text)}
 .para:target .ptext{background:rgba(67,101,46,.09);box-shadow:-.5rem 0 0 rgba(67,101,46,.09),.5rem 0 0 rgba(67,101,46,.09)}
@@ -249,7 +249,7 @@ mark{background:rgba(105,132,88,.38);color:inherit;padding:0 .08em}
   .sheet{border:0;padding:0;min-height:0}
   .ptext{text-align:justify;hyphens:auto}
   .para{padding-left:2.2rem}
-  .pnum{color:#556155}
+  .pnum{color:#56676E}
   h1,h2,h3,h4{break-after:avoid}
   p,.para{orphans:2;widows:2}
   sup.fnref a{background:none;color:var(--ink);padding:0;font-size:.7em}
