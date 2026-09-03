@@ -505,7 +505,7 @@ h4.sec{{margin:1.5rem 0 .5rem;font:600 .95rem/1.35 var(--sans);color:var(--ink-s
 a.xref{{color:var(--green);text-decoration:none;border-bottom:1px solid rgba(35,59,44,.28);
   transition:border-color .12s,color .12s}}
 a.xref:hover{{color:var(--gold);border-bottom-color:var(--gold)}}
-a.xref::after{{content:"\2197";font-size:.72em;vertical-align:.35em;margin-left:.1em;
+a.xref::after{{content:"↗";font-size:.72em;vertical-align:.35em;margin-left:.1em;
   color:var(--gold);opacity:.7}}
 @media print{{a.xref{{border-bottom:0;color:inherit}} a.xref::after{{content:""}}}}
 .ptext ul.condlist{{margin:.6rem 0 .6rem 1.15rem;padding:0;list-style:disc}}
