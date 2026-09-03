@@ -394,6 +394,9 @@ body{{margin:0;background:var(--backdrop);color:var(--ink);font:400 1.0625rem/1.
   border:1px solid rgba(244,239,222,.35);background:rgba(244,239,222,.08);
   color:var(--cream);border-radius:2px}}
 #q::placeholder{{color:rgba(244,239,222,.55)}}
+.allsearch{{margin-left:.6rem;font:600 .64rem/1 var(--sans);letter-spacing:.1em;
+  text-transform:uppercase;color:var(--gold);text-decoration:none;white-space:nowrap}}
+.allsearch:hover{{color:var(--cream)}}
 #q:focus{{outline:2px solid var(--gold);outline-offset:1px}}
 #navtoggle{{display:none;font:600 .72rem var(--sans);letter-spacing:.12em;text-transform:uppercase;
   background:none;border:1px solid rgba(244,239,222,.4);color:var(--cream);
@@ -604,6 +607,7 @@ mark{{background:rgba(168,129,60,.34);color:inherit;padding:0 .08em}}
   <form role="search" onsubmit="return false">
     <label class="sr-only" for="q" hidden>Search this chapter</label>
     <input id="q" type="search" placeholder="Search this chapter&hellip;" autocomplete="off">
+    <a class="allsearch" href="../search.html">All 26 &rarr;</a>
   </form>
 </header>
 
