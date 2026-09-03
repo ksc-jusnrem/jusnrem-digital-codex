@@ -127,9 +127,15 @@ def read_pane(src: str) -> str:
 
 def strip_controls(fragment: str) -> str:
     """Remove marking buttons and per-paragraph tooling, keeping prose intact."""
+    # Readers differ between build generations: section marks appear as a <span>
+    # in some and a <div> in others. Strip both, or the control labels
+    # ("recover superseded later") end up inside published heading text.
     fragment = re.sub(r'<span class="secmarks">.*?</span>', "", fragment, flags=re.S)
+    fragment = re.sub(r'<div class="secmarks">.*?</div>', "", fragment, flags=re.S)
     fragment = re.sub(r'<div class="marks">.*?</div>', "", fragment, flags=re.S)
+    fragment = re.sub(r'<span class="marks">.*?</span>', "", fragment, flags=re.S)
     fragment = re.sub(r'<div class="ptools">.*?</div>', "", fragment, flags=re.S)
+    fragment = re.sub(r'<span class="ptools">.*?</span>', "", fragment, flags=re.S)
     return fragment
 
 
@@ -160,7 +166,7 @@ def parse(pane: str) -> dict:
         # Two Reader generations exist: newer builds write class="hsec sec",
         # older builds write a bare <h2 id="s2-1">. Inner markup is identical,
         # so the class is optional here.
-        r'<(h[2-4]) id="(s[\w-]*|sx\d+)"(?:\s+class="hsec sec")?[^>]*>(.*?)</\1>'
+        r'<(h[2-4]) id="(s[\w-]*|sx\d+)"(?:\s+class="(?:hsec sec|sec hsec)")?[^>]*>(.*?)</\1>'
         r'|<div class="para" id="(p\d+)" data-pid="\4">(.*?)' + STOP +
         r'|<figure([^>]*)>\s*<img([^>]*)>\s*</figure>'
         r'|<div class="tablewrap">\s*(<table.*?</table>)\s*</div>'
