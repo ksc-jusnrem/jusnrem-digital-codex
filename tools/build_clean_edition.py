@@ -619,7 +619,7 @@ mark{{background:rgba(168,129,60,.34);color:inherit;padding:0 .08em}}
 
 <div class="shell">
   <nav class="sidebar" id="sidebar" aria-label="Codex contents">
-    <a class="up" href="../">&larr; JUSNREM Digital Codex</a>
+    <a class="up" href="../">&larr; JUSNREM Codex</a>
     <h2>Code, Law and Capital</h2>
     <ol class="worknav">{worknav}</ol>
     <p id="searchnote" hidden></p>
@@ -636,7 +636,7 @@ mark{{background:rgba(168,129,60,.34);color:inherit;padding:0 .08em}}
       <div class="byline">Khurram Chughtai</div>
     </div>
     <nav class="crumb" aria-label="Breadcrumb">
-      <a href="../">Digital Codex</a> <span>/</span>
+      <a href="../">Codex</a> <span>/</span>
       <a href="index.html">Code, Law and Capital</a> <span>/</span>
       <em>{eyebrow}</em>
     </nav>

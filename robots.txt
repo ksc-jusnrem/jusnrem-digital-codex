@@ -1,4 +1,4 @@
-# JUSNREM Digital Codex
+# JUSNREM Codex
 # Indexing is welcome. Bulk extraction for model training is not permitted.
 
 User-agent: *

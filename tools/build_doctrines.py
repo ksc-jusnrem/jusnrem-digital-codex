@@ -199,7 +199,7 @@ PAGE = """<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Doctrine Register &mdash; JUSNREM Digital Codex</title>
+<title>Doctrine Register &mdash; JUSNREM Codex</title>
 <meta name="description" content="Doctrines addressed independently of the works that state them, with honest status on every entry.">
 <link rel="canonical" href="https://www.jusnrem.legal/doctrines.html">
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Cormorant+Garamond:wght@500;600&family=Spectral:wght@400&display=swap" rel="stylesheet">
@@ -260,7 +260,7 @@ a{color:var(--green)}
 </head>
 <body>
 <header class="masthead"><div class="in">
-  <a class="brand" href="index.html"><b>JUSNREM Digital Codex</b><span>Doctrine Register</span></a>
+  <a class="brand" href="index.html"><b>JUSNREM Codex</b><span>Doctrine Register</span></a>
   <nav><a href="code-law-and-capital/">The Codex</a><a href="search.html">Search</a>
        <a href="authorities.html">Authorities</a><a href="map.html">Map</a></nav>
 </div></header>

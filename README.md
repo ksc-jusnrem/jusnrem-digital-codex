@@ -1,4 +1,4 @@
-# JUSNREM Digital Codex
+# JUSNREM Codex
 
 The published record of a continuing inquiry into legal authority, institutional
 capability and remedy. Static site, deployed to **jusnrem.legal**.

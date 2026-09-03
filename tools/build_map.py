@@ -119,7 +119,7 @@ PAGE = """<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Cross-reference map &mdash; JUSNREM Digital Codex</title>
+<title>Cross-reference map &mdash; JUSNREM Codex</title>
 <meta name="description" content="How the Codex cites itself: every internal cross-reference in the published text, drawn as an arc between chapters.">
 <link rel="canonical" href="https://www.jusnrem.legal/map.html">
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Cormorant+Garamond:wght@500;600&family=Spectral:wght@400&display=swap" rel="stylesheet">
@@ -184,7 +184,7 @@ a{color:var(--green)}
 </head>
 <body>
 <header class="masthead"><div class="in">
-  <a class="brand" href="index.html"><b>JUSNREM Digital Codex</b><span>Cross-reference map</span></a>
+  <a class="brand" href="index.html"><b>JUSNREM Codex</b><span>Cross-reference map</span></a>
   <nav><a href="code-law-and-capital/">The Codex</a><a href="search.html">Search</a>
        <a href="authorities.html">Authorities</a></nav>
 </div></header>
