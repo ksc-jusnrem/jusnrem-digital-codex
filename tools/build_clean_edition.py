@@ -779,6 +779,8 @@ function run() {{
     : 'No match in this chapter.';
 }}
 </script>
+<script src="../assets/js/codex-config.js"></script>
+<script src="../assets/js/codex-auth.js"></script>
 </body>
 </html>
 """

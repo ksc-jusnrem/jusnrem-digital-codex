@@ -78,6 +78,7 @@ a{color:var(--green)}
     <a href="authorities.html">Authorities</a>
     <a href="map.html">Map</a>
     <a href="doctrines.html">Doctrines</a>
+    <a href="account.html">Account</a>
   </nav>
 </div></header>
 
@@ -233,5 +234,7 @@ load();
 const pre = new URLSearchParams(location.search).get('q');
 if (pre) { q.value = pre; run(); }
 </script>
+<script src="assets/js/codex-config.js"></script>
+<script src="assets/js/codex-auth.js"></script>
 </body>
 </html>
