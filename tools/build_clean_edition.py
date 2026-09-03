@@ -150,7 +150,7 @@ def parse(pane: str) -> dict:
     if m:
         for li in re.finditer(r'<li id="(fn\d+)">(.*?)</li>', m.group(1), re.S):
             body = re.sub(r'<a class="backref".*?</a>\s*', "", li.group(2), flags=re.S)
-            doc["notes"].append((li.group(1), body.strip()))
+            doc["notes"].append((li.group(1), link_urls(body.strip())))
         pane = pane[: pane.index('<div class="notes">')]
 
     # Walk headings and paragraphs in document order.
@@ -200,7 +200,89 @@ def parse(pane: str) -> dict:
     return doc
 
 
-def render(doc: dict, note_map: dict) -> str:
+def link_urls(fragment: str) -> str:
+    """Make cited URLs clickable.
+
+    OSCOLA wraps a URL in angle brackets because paper cannot be clicked. In the
+    Codex the bracket convention is kept for citation fidelity, but the address
+    inside it becomes a link.
+    """
+    def one(m):
+        url = m.group(1).rstrip(".,;")
+        tail = m.group(1)[len(url):]
+        return (f'&lt;<a class="cite-url" href="{url}" target="_blank" '
+                f'rel="noopener noreferrer">{url}</a>&gt;{tail}')
+
+    fragment = re.sub(r"&lt;(https?://[^&\s]+)&gt;", one, fragment)
+    # any remaining bare address, not already inside an anchor
+    parts = re.split(r"(<a.*?</a>)", fragment, flags=re.S)
+    for i, part in enumerate(parts):
+        if part.startswith("<a"):
+            continue
+        parts[i] = re.sub(
+            r"(?<![\">])(https?://[^\s<>&\"]+)",
+            lambda m: f'<a class="cite-url" href="{m.group(1).rstrip(".,;")}" '
+                      f'target="_blank" rel="noopener noreferrer">{m.group(1)}</a>',
+            part)
+    return "".join(parts)
+
+
+def linkify(fragment: str, self_slug: str, sections: dict, misses: list) -> str:
+    """Turn internal cross-references into working links.
+
+    A treatise this heavily cross-referenced should let a reader follow a
+    reference where it points. References that cannot be resolved are recorded
+    rather than silently left as text, so a broken pointer is visible.
+    """
+    if not fragment:
+        return fragment
+
+    # Never linkify inside an existing anchor, or inside tag attributes.
+    parts = re.split(r'(<[^>]+>)', fragment)
+
+    def sub_text(txt: str) -> str:
+        def chapter(m):
+            n = int(m.group(1))
+            if not 1 <= n <= 26:
+                return m.group(0)
+            slug = f"chapter-{n:02d}"
+            if slug == self_slug:
+                return m.group(0)          # a chapter does not link to itself
+            return (f'<a class="xref" href="{slug}.html" '
+                    f'title="{html.escape(CHAPTERS[n])}">{m.group(0)}</a>')
+
+        def section(m):
+            num = m.group(2)
+            ch = int(num.split(".")[0])
+            target = sections.get(num)
+            if not target:
+                misses.append((self_slug, m.group(0)))
+                return m.group(0)
+            slug, anchor = target
+            href = f"#{anchor}" if slug == self_slug else f"{slug}.html#{anchor}"
+            return f'{m.group(1)}<a class="xref" href="{href}">{num}</a>'
+
+        txt = re.sub(r'\bChapter (\d{1,2})\b', chapter, txt)
+        txt = re.sub(r'\b(sections? )(\d{1,2}\.\d[\d.]*)', section, txt)
+        return txt
+
+    out, depth = [], 0
+    for part in parts:
+        if part.startswith("<"):
+            if part.startswith("<a "):
+                depth += 1
+            elif part.startswith("</a"):
+                depth = max(0, depth - 1)
+            out.append(part)
+        else:
+            out.append(part if depth else sub_text(part))
+    return "".join(out)
+
+
+def render(doc: dict, note_map: dict, sections: dict | None = None,
+           misses: list | None = None) -> str:
+    sections = sections or {}
+    misses = misses if misses is not None else []
     contents, body = [], []
     blocks = doc["blocks"]
     for i, b in enumerate(blocks):
@@ -248,7 +330,7 @@ def render(doc: dict, note_map: dict) -> str:
             body.append(
                 f'<div class="para" id="{b["id"]}">'
                 f'<a class="pnum" href="#{b["id"]}" aria-label="Paragraph {b["num"]}">{b["num"]}</a>'
-                f'<div class="ptext">{b["html"]}</div></div>'
+                f'<div class="ptext">{linkify(b["html"], doc.get("slug", ""), sections, misses)}</div></div>'
             )
 
     notes_html = "".join(
@@ -411,6 +493,12 @@ h4.sec{{margin:1.5rem 0 .5rem;font:600 .95rem/1.35 var(--sans);color:var(--ink-s
 .para:target .ptext{{background:rgba(168,129,60,.1);box-shadow:-.5rem 0 0 rgba(168,129,60,.1),.5rem 0 0 rgba(168,129,60,.1)}}
 .ptext{{text-align:left;text-wrap:pretty}}
 .ptext em{{font-style:italic}}
+a.xref{{color:var(--green);text-decoration:none;border-bottom:1px solid rgba(35,59,44,.28);
+  transition:border-color .12s,color .12s}}
+a.xref:hover{{color:var(--gold);border-bottom-color:var(--gold)}}
+a.xref::after{{content:"\2197";font-size:.72em;vertical-align:.35em;margin-left:.1em;
+  color:var(--gold);opacity:.7}}
+@media print{{a.xref{{border-bottom:0;color:inherit}} a.xref::after{{content:""}}}}
 .ptext ul.condlist{{margin:.6rem 0 .6rem 1.15rem;padding:0;list-style:disc}}
 .ptext ul.condlist li{{margin:.42rem 0}}
 .ptext ul.condlist strong{{font-weight:600;color:var(--ink-head)}}
@@ -452,6 +540,10 @@ button.fnbtn:hover,button.fnbtn[aria-expanded=true]{{background:var(--gold)}}
   scroll-margin-top:5rem}}
 .notes li:target{{background:rgba(168,129,60,.12)}}
 .backref{{color:var(--gold);text-decoration:none;margin-right:.25rem}}
+a.cite-url{{color:var(--green);text-decoration:none;border-bottom:1px solid rgba(35,59,44,.3);
+  word-break:break-word}}
+a.cite-url:hover{{color:var(--gold);border-bottom-color:var(--gold)}}
+@media print{{a.cite-url{{border-bottom:0;color:inherit}}}}
 a{{color:var(--green)}}
 a:hover{{color:var(--gold)}}
 

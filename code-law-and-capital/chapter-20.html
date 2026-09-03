@@ -131,6 +131,12 @@ h4.sec{margin:1.5rem 0 .5rem;font:600 .95rem/1.35 var(--sans);color:var(--ink-so
 .para:target .ptext{background:rgba(168,129,60,.1);box-shadow:-.5rem 0 0 rgba(168,129,60,.1),.5rem 0 0 rgba(168,129,60,.1)}
 .ptext{text-align:left;text-wrap:pretty}
 .ptext em{font-style:italic}
+a.xref{color:var(--green);text-decoration:none;border-bottom:1px solid rgba(35,59,44,.28);
+  transition:border-color .12s,color .12s}
+a.xref:hover{color:var(--gold);border-bottom-color:var(--gold)}
+a.xref::after{content:"97";font-size:.72em;vertical-align:.35em;margin-left:.1em;
+  color:var(--gold);opacity:.7}
+@media print{a.xref{border-bottom:0;color:inherit} a.xref::after{content:""}}
 .ptext ul.condlist{margin:.6rem 0 .6rem 1.15rem;padding:0;list-style:disc}
 .ptext ul.condlist li{margin:.42rem 0}
 .ptext ul.condlist strong{font-weight:600;color:var(--ink-head)}
@@ -172,6 +178,10 @@ button.fnbtn:hover,button.fnbtn[aria-expanded=true]{background:var(--gold)}
   scroll-margin-top:5rem}
 .notes li:target{background:rgba(168,129,60,.12)}
 .backref{color:var(--gold);text-decoration:none;margin-right:.25rem}
+a.cite-url{color:var(--green);text-decoration:none;border-bottom:1px solid rgba(35,59,44,.3);
+  word-break:break-word}
+a.cite-url:hover{color:var(--gold);border-bottom-color:var(--gold)}
+@media print{a.cite-url{border-bottom:0;color:inherit}}
 a{color:var(--green)}
 a:hover{color:var(--gold)}
 
